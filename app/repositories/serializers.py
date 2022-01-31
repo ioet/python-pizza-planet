@@ -2,38 +2,42 @@ from app.plugins import ma
 from .models import Ingredient, Size, Order, OrderDetail
 
 
-class IngredientSerializer(ma.ModelSchema):
+class IngredientSerializer(ma.SQLAlchemyAutoSchema):
 
     class Meta:
         model = Ingredient
+        load_instance = True
         fields = ('_id', 'name', 'price')
 
 
-class SizeSerializer(ma.ModelSchema):
+class SizeSerializer(ma.SQLAlchemyAutoSchema):
 
     class Meta:
         model = Size
+        load_instance = True
         fields = ('_id', 'name', 'price')
 
 
-class OrderDetailSerializer(ma.ModelSchema):
+class OrderDetailSerializer(ma.SQLAlchemyAutoSchema):
 
     ingredient = ma.Nested(IngredientSerializer)
 
     class Meta:
         model = OrderDetail
+        load_instance = True
         fields = (
             'ingredient_price',
             'ingredient'
         )
 
 
-class OrderSerializer(ma.ModelSchema):
+class OrderSerializer(ma.SQLAlchemyAutoSchema):
     size = ma.Nested(SizeSerializer)
     detail = ma.Nested(OrderDetailSerializer, many=True)
 
     class Meta:
         model = Order
+        load_instance = True
         fields = (
             '_id',
             'client_name',
