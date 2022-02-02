@@ -49,7 +49,7 @@ class IngredientManager(BaseManager):
 
     @classmethod
     def get_by_id_list(cls, ids: Sequence):
-        return cls.model.filter(cls.model._id.in_(set(ids))).all()
+        return cls.db.session.query(cls.model).filter(cls.model._id.in_(set(ids))).all() or []
 
 
 class OrderManager(BaseManager):
