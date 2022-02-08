@@ -34,9 +34,9 @@ def test_get_by_id(ingredient: dict):
         pytest.assume(ingredient_from_db[param] == value)
 
 
-def test_get_all(ingredient: list):
+def test_get_all(ingredients: list):
     created_ingredients = []
-    for _ in range(5):
+    for ingredient in ingredients:
         created_ingredient, _ = IngredientController.create(ingredient)
         created_ingredients.append(created_ingredient)
 
