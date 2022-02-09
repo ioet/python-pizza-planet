@@ -16,7 +16,7 @@ migrate = Migrate()
 migrate.init_app(flask_app, db)
 
 
-@manager.command('test')
+@manager.command('test', with_appcontext=False)
 def test():
     return pytest.main(['-v', './app/test'])
 
