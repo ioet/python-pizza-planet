@@ -1,13 +1,9 @@
-from .base import BaseController
-from ..repositories.managers import OrderManager
+from sqlalchemy.exc import SQLAlchemyError
+
+from ..common.utils import check_required_keys
 from ..repositories.managers import (IngredientManager, OrderManager,
                                      SizeManager)
-from ..common.utils import check_required_keys
-from sqlalchemy.exc import SQLAlchemyError
-<< << << < HEAD
-
-== == == =
->>>>>> > main
+from .base import BaseController
 
 
 class OrderController(BaseController):
