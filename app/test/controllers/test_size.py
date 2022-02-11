@@ -34,9 +34,9 @@ def test_get_by_id(size: dict):
         pytest.assume(size_from_db[param] == value)
 
 
-def test_get_all(size: list):
+def test_get_all(sizes: list):
     created_sizes = []
-    for _ in range(5):
+    for size in sizes:
         created_size, _ = SizeController.create(size)
         created_sizes.append(created_size)
 
