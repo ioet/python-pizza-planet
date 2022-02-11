@@ -19,13 +19,13 @@ class OrderController(BaseController):
     def create(cls, order: dict):
         current_order = order.copy()
         if not check_required_keys(cls.__required_info, current_order):
-            return None, 'Invalid order payload'
+            return 'Invalid order payload', None
 
         size_id = current_order.get('size_id')
         size = SizeManager.get_by_id(size_id)
 
         if not size:
-            return None, 'Invalid size for Order'
+            return 'Invalid size for Order', None
 
         ingredient_ids = current_order.pop('ingredients', [])
         try:
