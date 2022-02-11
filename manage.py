@@ -18,7 +18,7 @@ migrate.init_app(flask_app, db)
 
 @manager.command('test')
 def test():
-    return pytest.main(['-v', './test'])
+    return pytest.main(['-v', './app/test'])
 
 
 if __name__ == '__main__':
