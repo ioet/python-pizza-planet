@@ -8,7 +8,7 @@ from .serializers import (IngredientSerializer, OrderSerializer,
 class BaseManager:
     model: Optional[db.Model] = None
     serializer: Optional[ma.SQLAlchemyAutoSchema] = None
-    db = db
+    session = db.session
 
     @classmethod
     def get_all(cls):
@@ -26,15 +26,15 @@ class BaseManager:
     def create(cls, entry: dict):
         serializer = cls.serializer()
         new_entry = serializer.load(entry)
-        cls.db.session.add(new_entry)
-        cls.db.session.commit()
+        cls.session.add(new_entry)
+        cls.session.commit()
         return serializer.dump(new_entry)
 
     @classmethod
     def update(cls, _id: Any, new_values: dict):
         entry = cls.get_by_id(_id)
         entry.update(new_values)
-        cls.db.session.commit()
+        cls.session.commit()
         return cls.serializer().dump(entry)
 
 
@@ -49,7 +49,7 @@ class IngredientManager(BaseManager):
 
     @classmethod
     def get_by_id_list(cls, ids: Sequence):
-        return cls.db.session.query(cls.model).filter(cls.model._id.in_(set(ids))).all() or []
+        return cls.session.query(cls.model).filter(cls.model._id.in_(set(ids))).all() or []
 
 
 class OrderManager(BaseManager):
@@ -59,12 +59,12 @@ class OrderManager(BaseManager):
     @classmethod
     def create(cls, order_data: dict, ingredients: List[Ingredient]):
         new_order = cls.model(**order_data)
-        cls.db.session.add(new_order)
-        cls.db.session.flush()
-        cls.db.session.refresh(new_order)
-        cls.db.session.add_all((OrderDetail(order_id=new_order._id, ingredient_id=ingredient._id, ingredient_price=ingredient.price)
-                                for ingredient in ingredients))
-        cls.db.session.commit()
+        cls.session.add(new_order)
+        cls.session.flush()
+        cls.session.refresh(new_order)
+        cls.session.add_all((OrderDetail(order_id=new_order._id, ingredient_id=ingredient._id, ingredient_price=ingredient.price)
+                             for ingredient in ingredients))
+        cls.session.commit()
         return cls.serializer().dump(new_order)
 
     @classmethod
