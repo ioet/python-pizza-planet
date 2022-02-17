@@ -22,7 +22,7 @@ python3 -m venv venv
 
 - Activate the virtual environment
 
-- Install all necesary dependencies:
+- Install all necessary dependencies:
 
 ```bash
 pip3 install -r requirements.txt
