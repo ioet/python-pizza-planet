@@ -148,4 +148,5 @@ cython_debug/
 # Project specific
 migrations/
 pizza.sqlite
-.vscode/
+.vscode/launch.json
+.vscode/tasks.json
