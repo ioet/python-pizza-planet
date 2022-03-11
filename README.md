@@ -1,6 +1,15 @@
-# Python Pizza Planet
+<h1 align="center"> Python Pizza Planet </h1>
+
+![python-badge](https://img.shields.io/badge/python-%2314354C.svg?style=for-the-badge&logo=python&logoColor=white)
 
 This is an example software for a pizzeria that takes customizable orders.
+
+## Table of Contents
+- [Getting started](#getting-started)
+- [Running the backend project](#running-the-backend-project)
+- [Testing the backend](#testing-the-backend)
+- [Running the frontend](#running-the-frontend)
+- [Tickets board](#tickets-board)
 
 ## Getting started
 
@@ -12,7 +21,7 @@ You will need the following general tools:
 
 - Extensions such as [Python](https://marketplace.visualstudio.com/items?itemName=ms-python.python) and [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)
 
-### Running the backend project
+## Running the backend project
 
 - Create a virtual environment in the root folder
 
@@ -21,6 +30,10 @@ python3 -m venv venv
 ```
 
 - Activate the virtual environment
+
+```bash
+source venv/bin/activate 
+```
 
 - Install all necessary dependencies:
 
@@ -52,6 +65,22 @@ python3 manage.py run
 python3 manage.py test
 ```
 
-### Running the frontend
+## Running the frontend
 
-_TBD_ 
+- Clone git UI submodule
+
+```bash
+git submodule update --init
+```
+
+- Install Live Server extension from [here](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) on VSCode Quick Open (`Ctrl + P`)
+
+```bash
+ext install ritwickdey.LiveServer
+```
+
+- To run the frontend, start `ui/index.html` file with Live Server (Right click `Open with Live Server`)
+
+## Tickets board
+
+TBD
