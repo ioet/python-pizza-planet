@@ -80,7 +80,3 @@ ext install ritwickdey.LiveServer
 ```
 
 - To run the frontend, start `ui/index.html` file with Live Server (Right click `Open with Live Server`)
-
-## Tickets board
-
-TBD
