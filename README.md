@@ -36,7 +36,7 @@ git clone https://github.com/ioet/python-pizza-planet.git
 python3 -m venv venv
 ```
 
-- Activate the virtual environment
+- Activate the virtual environment (In vscode if you select the virtual env for your project it will activate once you open a new console window)
 
 _For linux/MacOS users:_
 
