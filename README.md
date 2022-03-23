@@ -8,9 +8,8 @@ This is an example software for a pizzeria that takes customizable orders.
 
 - [Getting started](#getting-started)
 - [Running the backend project](#running-the-backend-project)
-- [Testing the backend](#testing-the-backend)
 - [Running the frontend](#running-the-frontend)
-- [Tickets board](#tickets-board)
+- [Testing the backend](#testing-the-backend)
 
 ## Getting started
 
