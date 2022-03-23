@@ -5,6 +5,7 @@
 This is an example software for a pizzeria that takes customizable orders.
 
 ## Table of Contents
+
 - [Getting started](#getting-started)
 - [Running the backend project](#running-the-backend-project)
 - [Testing the backend](#testing-the-backend)
@@ -23,7 +24,13 @@ You will need the following general tools:
 
 ## Running the backend project
 
-- Create a virtual environment in the root folder
+- Clone the repo
+
+```bash
+git clone https://github.com/ioet/python-pizza-planet.git
+```
+
+- Create a virtual environment in the root folder of the project
 
 ```bash
 python3 -m venv venv
@@ -31,8 +38,16 @@ python3 -m venv venv
 
 - Activate the virtual environment
 
+_For linux/MacOS users:_
+
 ```bash
 source venv/bin/activate 
+```
+
+_For windows users:_
+
+```cmd
+\path\to\env\Scripts\activate
 ```
 
 - Install all necessary dependencies:
@@ -55,6 +70,24 @@ python3 manage.py db upgrade
 python3 manage.py run
 ```
 
+## Running the frontend
+
+- Clone git UI submodule
+
+```bash
+git submodule update --init
+```
+
+- Install Live Server extension if you don't have it from [here](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) on VSCode Quick Open (`Ctrl + P`)
+
+```bash
+ext install ritwickdey.LiveServer
+```
+
+- To run the frontend, start `ui/index.html` file with Live Server (Right click `Open with Live Server`)
+
+- **Important Note** You have to open vscode in the root folder of the project.
+
 ### Testing the backend
 
 - Make sure that you have `pytest` installed
@@ -64,19 +97,3 @@ python3 manage.py run
 ```bash
 python3 manage.py test
 ```
-
-## Running the frontend
-
-- Clone git UI submodule
-
-```bash
-git submodule update --init
-```
-
-- Install Live Server extension from [here](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) on VSCode Quick Open (`Ctrl + P`)
-
-```bash
-ext install ritwickdey.LiveServer
-```
-
-- To run the frontend, start `ui/index.html` file with Live Server (Right click `Open with Live Server`)
