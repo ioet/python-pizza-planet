@@ -34,10 +34,9 @@ class BaseManager:
 
     @classmethod
     def update(cls, _id: Any, new_values: dict):
-        entry = cls.get_by_id(_id)
-        entry.update(new_values)
+        cls.session.query(cls.model).filter_by(_id=_id).update(new_values)
         cls.session.commit()
-        return cls.serializer().dump(entry)
+        return cls.get_by_id(_id)
 
 
 class SizeManager(BaseManager):
