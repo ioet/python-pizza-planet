@@ -28,7 +28,7 @@ def sizes():
 @pytest.fixture
 def create_size(client, size_uri) -> dict:
     response = client.post(size_uri, json=size_mock())
-    return response.json
+    return response
 
 
 @pytest.fixture
