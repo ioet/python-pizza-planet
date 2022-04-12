@@ -22,8 +22,11 @@ def test_update(app, ingredient: dict):
         **updated_fields
     })
     pytest.assume(error is None)
+    ingredient_from_database, error = IngredientController.get_by_id(created_ingredient['_id'])
+    pytest.assume(error is None)
     for param, value in updated_fields.items():
         pytest.assume(updated_ingredient[param] == value)
+        pytest.assume(ingredient_from_database[param] == value)
 
 
 def test_get_by_id(app, ingredient: dict):
