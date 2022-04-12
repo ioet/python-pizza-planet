@@ -1,3 +1,4 @@
+from .index import IndexController
 from .ingredient import IngredientController
-from .size import SizeController
 from .order import OrderController
+from .size import SizeController
