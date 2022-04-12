@@ -2,10 +2,8 @@ import inspect
 
 from flask import Blueprint, Flask
 
-from app.settings import Config
 
-
-def create_app(config_class):
+def create_app(config_class: str):
     flask_app = Flask(__name__)
     flask_app.config.from_object(config_class)
     return flask_app
@@ -39,4 +37,4 @@ def configure_app(config_class):
     return flask_app
 
 
-flask_app = configure_app(Config)
+flask_app = configure_app('app.settings.Config')
