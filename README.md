@@ -55,12 +55,26 @@ _For windows users:_
 pip3 install -r requirements.txt
 ```
 
-- Start the database:
+- Start the database (Only needed for the first run):
 
 ```bash
 python3 manage.py db init
 python3 manage.py db migrate
 python3 manage.py db upgrade
+```
+
+- If you want to use the hot reload feature set FLASK_ENV before running the project:
+
+_For linux/MacOS users:_
+
+```bash
+export FLASK_ENV=development 
+```
+
+_For windows users:_
+
+```CMD
+set FLASK_ENV=development
 ```
 
 - Run the project with:
@@ -86,6 +100,8 @@ ext install ritwickdey.LiveServer
 - To run the frontend, start `ui/index.html` file with Live Server (Right click `Open with Live Server`)
 
 - **Important Note** You have to open vscode in the root folder of the project.
+
+- **To avoid CORS errors** start the backend before the frontend, some browsers have CORS issues otherwise
 
 ### Testing the backend
 
