@@ -12,8 +12,7 @@ class OrderController(BaseController):
 
     @staticmethod
     def calculate_order_price(size_price: float, ingredients: list, beverages: list):
-        price = sum(ingredient.price for ingredient in ingredients) + sum(
-            beverage.price for beverage in beverages) + size_price
+        price = sum(ingredient.price for ingredient in ingredients) + sum(beverage.price for beverage in beverages) + size_price
         return round(price, 2)
 
     @classmethod

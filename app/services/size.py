@@ -36,3 +36,4 @@ def get_sizes():
     response = sizes if not error else {'error': error}
     status_code = 200 if sizes else 404 if not error else 400
     return jsonify(response), status_code
+
