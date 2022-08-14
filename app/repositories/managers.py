@@ -1,10 +1,13 @@
 from hashlib import new
+import json
+from traceback import print_tb
 from typing import Any, List, Optional, Sequence
 from datetime import datetime
+from sqlalchemy import func, desc
 
 from sqlalchemy.sql import text, column
 
-from .models import Ingredient, Beverage, Order, OrderDetail,OrderBeverage, Size, db
+from .models import Ingredient, Beverage, Order, OrderDetail, OrderBeverage, Size, db
 from .serializers import (IngredientSerializer, BeverageSerializer, OrderSerializer,
                           SizeSerializer, ma)
 
@@ -54,6 +57,7 @@ class IngredientManager(BaseManager):
     def get_by_id_list(cls, ids: Sequence):
         return cls.session.query(cls.model).filter(cls.model._id.in_(set(ids))).all() or []
 
+
 class BeverageManager(BaseManager):
     model = Beverage
     serializer = BeverageSerializer
@@ -73,7 +77,8 @@ class OrderManager(BaseManager):
         if(new_order.date is None):
             new_order.date = datetime.now()
         else:
-            new_order.date = datetime.strptime(new_order.date, '%Y-%m-%d %H:%M:%S')
+            new_order.date = datetime.strptime(
+                new_order.date, '%Y-%m-%d %H:%M:%S')
         cls.session.add(new_order)
         cls.session.flush()
         cls.session.refresh(new_order)
@@ -94,3 +99,39 @@ class IndexManager(BaseManager):
     @classmethod
     def test_connection(cls):
         cls.session.query(column('1')).from_statement(text('SELECT 1')).all()
+
+
+class ReportManager(BaseManager):
+    order = Order
+    order_detail = OrderDetail
+    ingredient = Ingredient
+
+    @classmethod
+    def get_report(cls):
+        report_dict = {}
+        best_customers = []
+        most_requested_ingredient = []
+        date_with_most_revenue = []
+        # best customers
+        customers = cls.session.query(cls.order.client_name, func.count(cls.order.client_dni).label(
+            'times')).group_by(cls.order.client_dni).order_by(desc('times')).limit(3).all()
+        for customer in customers:
+            best_customers.append(
+                {'client_name': customer.client_name, 'times': customer.times})
+        # most requested ingredient
+        ingredients = cls.session.query(cls.ingredient.name, func.count(cls.order_detail.ingredient_id).label('times')).join(
+            cls.ingredient, cls.order_detail.ingredient_id == cls.ingredient._id).group_by(cls.order_detail.ingredient_id).order_by(desc('times')).limit(1).all()
+        for ingredient in ingredients:
+            most_requested_ingredient.append(
+                {'name': ingredient.name, 'times': ingredient.times})
+        # date with most revenue
+        revenues = cls.session.query(func.strftime('%Y', cls.order.date).label('year'), func.strftime('%m', cls.order.date).label(
+            'month'), func.sum(cls.order.total_price).label('total_sales')).group_by('year', 'month').order_by(desc('total_sales')).limit(1).all()
+        for revenue in revenues:
+            date_with_most_revenue.append(
+                {'year': revenue.year, 'month': revenue.month, 'total_sales': revenue.total_sales})
+        report_dict['best_customers'] = best_customers
+        report_dict['most_requested_ingredient'] = most_requested_ingredient
+        report_dict['date_with_most_revenue'] = date_with_most_revenue
+
+        return report_dict
