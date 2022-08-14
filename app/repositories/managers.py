@@ -106,32 +106,52 @@ class ReportManager(BaseManager):
     order_detail = OrderDetail
     ingredient = Ingredient
 
+    
     @classmethod
-    def get_report(cls):
-        report_dict = {}
+    def get_customer_report(cls):
+        return {
+            'best_customers': cls.get_best_customers_list(),
+        }
+
+    @classmethod
+    def get_all_report(cls):
+        return {
+            'best_customers': cls.get_best_customers_list(),
+            'most_requested_ingredient': cls.get_most_requested_ingredients(),
+            'date_with_most_revenue': cls.get_date_with_most_revenue()
+        }
+
+    @classmethod
+    def get_report(cls,func):
+        report = func()
+        return report
+
+    @classmethod
+    def get_best_customers_list(cls):
         best_customers = []
-        most_requested_ingredient = []
-        date_with_most_revenue = []
-        # best customers
         customers = cls.session.query(cls.order.client_name, func.count(cls.order.client_dni).label(
             'times')).group_by(cls.order.client_dni).order_by(desc('times')).limit(3).all()
         for customer in customers:
             best_customers.append(
                 {'client_name': customer.client_name, 'times': customer.times})
-        # most requested ingredient
+        return best_customers
+        
+    @classmethod
+    def get_most_requested_ingredients(cls):
+        most_requested_ingredients = []
         ingredients = cls.session.query(cls.ingredient.name, func.count(cls.order_detail.ingredient_id).label('times')).join(
             cls.ingredient, cls.order_detail.ingredient_id == cls.ingredient._id).group_by(cls.order_detail.ingredient_id).order_by(desc('times')).limit(1).all()
         for ingredient in ingredients:
-            most_requested_ingredient.append(
+            most_requested_ingredients.append(
                 {'name': ingredient.name, 'times': ingredient.times})
-        # date with most revenue
+        return most_requested_ingredients
+    
+    @classmethod
+    def get_date_with_most_revenue(cls):
+        date_with_most_revenue = []
         revenues = cls.session.query(func.strftime('%Y', cls.order.date).label('year'), func.strftime('%m', cls.order.date).label(
             'month'), func.sum(cls.order.total_price).label('total_sales')).group_by('year', 'month').order_by(desc('total_sales')).limit(1).all()
         for revenue in revenues:
             date_with_most_revenue.append(
                 {'year': revenue.year, 'month': revenue.month, 'total_sales': revenue.total_sales})
-        report_dict['best_customers'] = best_customers
-        report_dict['most_requested_ingredient'] = most_requested_ingredient
-        report_dict['date_with_most_revenue'] = date_with_most_revenue
-
-        return report_dict
+        return date_with_most_revenue

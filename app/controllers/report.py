@@ -7,4 +7,4 @@ class ReportController(BaseController):
 
     @classmethod
     def generate_report(cls):
-        return ReportManager.get_report(), None
+        return ReportManager.get_report(cls.manager.get_all_report), None
