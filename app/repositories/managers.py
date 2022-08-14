@@ -1,4 +1,6 @@
+from hashlib import new
 from typing import Any, List, Optional, Sequence
+from datetime import datetime
 
 from sqlalchemy.sql import text, column
 
@@ -68,6 +70,10 @@ class OrderManager(BaseManager):
     @classmethod
     def create(cls, order_data: dict, ingredients: List[Ingredient], beverages: List[Beverage]):
         new_order = cls.model(**order_data)
+        if(new_order.date is None):
+            new_order.date = datetime.now()
+        else:
+            new_order.date = datetime.strptime(new_order.date, '%Y-%m-%d %H:%M:%S')
         cls.session.add(new_order)
         cls.session.flush()
         cls.session.refresh(new_order)
