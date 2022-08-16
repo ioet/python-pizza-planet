@@ -62,6 +62,11 @@ python manage.py db init
 python manage.py db migrate
 python manage.py db upgrade
 ```
+-if the console throws you an error saying that your database is not up to date you can run this command:
+
+```bash
+python manage.py db stamp head
+```
 
 - If you want to use the hot reload feature set FLASK_ENV before running the project:
 
