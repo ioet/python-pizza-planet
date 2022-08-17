@@ -61,6 +61,7 @@ pip3 install -r requirements.txt
 python3 manage.py db init
 python3 manage.py db migrate
 python3 manage.py db upgrade
+python3 manage.py seed run
 ```
 
 - If you want to use the hot reload feature set FLASK_ENV before running the project:
