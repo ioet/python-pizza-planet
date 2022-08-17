@@ -1,28 +1,31 @@
-name: CI
+name: CI L'ultima cena
 on:
   pull_request:
     branches: [ "main" ]
     
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
       # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
+      - name: Create venv
+        run: python3 -m venv venv
 
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      - name: Set venv
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+        source venv/bin/activate
+        pip3 install -r requirements.txt
+        export FLASK_ENV=development
+      
+      - name: Set database
+        run: |
+        python3 manage.py db init
+        python3 manage.py db migrate
+        python3 manage.py db upgrade
+      
+      - name: Set flask env
+        run:  echo FINISHED!!!
