@@ -1,9 +1,10 @@
 
-from unicodedata import name
 from app.common.http_methods import GET, POST, PUT
 from flask import Blueprint
 from .base_service import BaseService
 from ..controllers import BeverageController
+from ..test.fixtures.beverage import beverage
+
 
 beverage = Blueprint('beverage', __name__)
 beverage_service = BaseService(entity_controller=BeverageController)
