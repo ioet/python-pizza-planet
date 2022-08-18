@@ -92,7 +92,7 @@ class OrderManager(BaseManager):
 
     @classmethod
     def update(cls):
-        raise NotImplementedError(f'Method not suported for {cls.__name__}')
+        raise NotImplementedError(f'Method not supported for {cls.__name__}')
 
 
 class IndexManager(BaseManager):
