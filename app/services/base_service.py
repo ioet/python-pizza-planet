@@ -12,7 +12,7 @@ class BaseService():
         response = entity if not error else {'error': error}
         status_code = 200 if not error else 400
         return jsonify(response), status_code
-
+    
     def update(cls):
         entity, error = cls.entity_controller.update(request.json)
         response = entity if not error else {'error': error}

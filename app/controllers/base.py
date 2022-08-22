@@ -1,4 +1,4 @@
-from typing import Any, Optional, Tuple
+from typing import Any, Optional, Tuple, Sequence
 from sqlalchemy.exc import SQLAlchemyError
 from ..repositories.managers import BaseManager
 
@@ -17,6 +17,13 @@ class BaseController:
     def get_all(cls) -> Tuple[Any, Optional[str]]:
         try:
             return cls.manager.get_all(), None
+        except (SQLAlchemyError, RuntimeError) as ex:
+            return None, str(ex)
+
+    @classmethod
+    def get_by_id_list(cls, ids: Sequence) -> Tuple[Any, Optional[str]]:
+        try:
+            return cls.manager.get_by_id_list(ids), None
         except (SQLAlchemyError, RuntimeError) as ex:
             return None, str(ex)
 

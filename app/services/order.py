@@ -1,5 +1,6 @@
 from app.common.http_methods import GET, POST
 from flask import Blueprint
+from flask import jsonify, request
 
 from .base_service import BaseService
 
@@ -19,6 +20,10 @@ def create_order():
 def get_order_by_id(_id: int):
     return order_service.get_by_id(_id)
 
+
 @order.route("/", methods=GET)
 def get_orders():
-    return order_service.get()
+    entity, error = OrderController.get_all()
+    response = entity if not error else {'error': error}
+    status_code = 200 if not error else 400
+    return jsonify(response), status_code
