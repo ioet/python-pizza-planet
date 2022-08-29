@@ -110,5 +110,5 @@ ext install ritwickdey.LiveServer
 - Run the test command
 
 ```bash
-python3 manage.py test
+python3 manage.py test 
 ```
