@@ -1,0 +1,22 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  ci-pizza-planet:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout to my branch
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run lint
+        run: flake8 app/ migrations/ manage.py
+
+      - name: Run tests
+        run: python manage.py test
