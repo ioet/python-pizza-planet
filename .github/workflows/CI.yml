@@ -44,6 +44,10 @@ jobs:
         with:
           path : venv
           key: CI-Pizza-Planet-${{hashFiles('requirements.txt')}}
+      
+      - name: sleep
+        run: sleep 120s
+        shell: bash
 
       - name: Run linters
         run: source venv/bin/activate && flake8 app/ manage.py
