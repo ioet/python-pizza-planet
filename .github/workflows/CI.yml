@@ -19,4 +19,4 @@ jobs:
       #   run: flake8 app/ manage.py
 
       - name: Run tests
-        run: pytest app/test/
+        run: pytest -v app/test/
