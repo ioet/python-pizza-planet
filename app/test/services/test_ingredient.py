@@ -13,7 +13,11 @@ def test_create_ingredient_service(create_ingredient):
 
 def test_update_ingredient_service(client, create_ingredient, ingredient_uri):
     current_ingredient = create_ingredient.json
-    update_data = {**current_ingredient, 'name': get_random_string(), 'price': get_random_price(1, 5)}
+    update_data = {
+        **current_ingredient,
+        'name': get_random_string(),
+        'price': get_random_price(1, 5),
+    }
     response = client.put(ingredient_uri, json=update_data)
     pytest.assume(response.status.startswith('200'))
     updated_ingredient = response.json
@@ -21,7 +25,9 @@ def test_update_ingredient_service(client, create_ingredient, ingredient_uri):
         pytest.assume(updated_ingredient[param] == value)
 
 
-def test_get_ingredient_by_id_service(client, create_ingredient, ingredient_uri):
+def test_get_ingredient_by_id_service(
+    client, create_ingredient, ingredient_uri
+):
     current_ingredient = create_ingredient.json
     response = client.get(f'{ingredient_uri}id/{current_ingredient["_id"]}')
     pytest.assume(response.status.startswith('200'))
@@ -33,6 +39,8 @@ def test_get_ingredient_by_id_service(client, create_ingredient, ingredient_uri)
 def test_get_ingredients_service(client, create_ingredients, ingredient_uri):
     response = client.get(ingredient_uri)
     pytest.assume(response.status.startswith('200'))
-    returned_ingredients = {ingredient['_id']: ingredient for ingredient in response.json}
+    returned_ingredients = {
+        ingredient['_id']: ingredient for ingredient in response.json
+    }
     for ingredient in create_ingredients:
         pytest.assume(ingredient['_id'] in returned_ingredients)

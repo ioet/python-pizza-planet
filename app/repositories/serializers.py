@@ -3,7 +3,6 @@ from .models import Ingredient, Size, Order, OrderDetail
 
 
 class IngredientSerializer(ma.SQLAlchemyAutoSchema):
-
     class Meta:
         model = Ingredient
         load_instance = True
@@ -11,7 +10,6 @@ class IngredientSerializer(ma.SQLAlchemyAutoSchema):
 
 
 class SizeSerializer(ma.SQLAlchemyAutoSchema):
-
     class Meta:
         model = Size
         load_instance = True
@@ -25,10 +23,7 @@ class OrderDetailSerializer(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = OrderDetail
         load_instance = True
-        fields = (
-            'ingredient_price',
-            'ingredient'
-        )
+        fields = ('ingredient_price', 'ingredient')
 
 
 class OrderSerializer(ma.SQLAlchemyAutoSchema):
@@ -47,5 +42,5 @@ class OrderSerializer(ma.SQLAlchemyAutoSchema):
             'date',
             'total_price',
             'size',
-            'detail'
+            'detail',
         )

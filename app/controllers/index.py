@@ -5,7 +5,6 @@ from ..repositories.managers import IndexManager
 
 
 class IndexController:
-
     @staticmethod
     def test_connection() -> Tuple[bool, str]:
         try:

@@ -4,10 +4,7 @@ from ..utils.functions import get_random_price, get_random_string
 
 
 def ingredient_mock() -> dict:
-    return {
-        'name': get_random_string(),
-        'price': get_random_price(10, 20)
-    }
+    return {'name': get_random_string(), 'price': get_random_price(10, 20)}
 
 
 @pytest.fixture
