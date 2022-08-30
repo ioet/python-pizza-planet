@@ -5,6 +5,10 @@ on:
     branches:
       - main
 
+concurrency: 
+  group: CI-Pizza-Planet-${{github.ref}}
+  cancel-in-progress: true
+
 jobs:
   ci-pizza-planet:
     runs-on: ubuntu-latest
