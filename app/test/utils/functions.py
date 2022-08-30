@@ -36,5 +36,3 @@ def get_random_sequence(length: int = 10) -> str:
 
 def get_random_phone() -> str:
     return get_random_sequence(10)
-
-print(get_random_email())
