@@ -19,10 +19,6 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: sleep
-        run: sleep 120s
-        shell: bash
-
       - name: Run lint
         run: flake8 app/ manage.py
 
