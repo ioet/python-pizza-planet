@@ -22,8 +22,13 @@ jobs:
         with:
           path : venv
           key: CI-Pizza-Planet-${{hashFiles('requirements.txt')}}
+      
+      - name: Creating virtual environment 
+        if: steps.venv-cache.outputs.cache-hit != true
+        run: python -m venv venv
 
       - name: Install python dependencies
+        if: steps.venv-cache.outputs.cache-hit != true
         run: source venv/bin/activate && pip install -r requirements.txt
 
   Linters:
@@ -33,7 +38,7 @@ jobs:
       - name: Checkout to my branch
         uses: actions/checkout@v3
 
-      - name: Creating or Restoring venv cache
+      - name: Restoring venv cache
         id: venv-cache
         uses: actions/cache@v3
         with:
@@ -50,7 +55,7 @@ jobs:
       - name: Checkout to my branch
         uses: actions/checkout@v3
 
-      - name: Creating or Restoring venv cache
+      - name: Restoring venv cache
         id: venv-cache
         uses: actions/cache@v3
         with:
