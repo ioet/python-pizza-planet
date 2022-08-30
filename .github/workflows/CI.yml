@@ -15,8 +15,8 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      # - name: Run lint
-      #   run: flake8 app/ manage.py
+      - name: Run lint
+        run: flake8 app/ manage.py
 
       - name: Run tests
         run: pytest -v app/test/
