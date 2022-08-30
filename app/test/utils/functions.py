@@ -24,8 +24,10 @@ def shuffle_list(choices: list) -> list:
 
 
 def get_random_email() -> str:
-    return f'{get_random_string()}@' \
-           f'{get_random_choice(["hotmail.com", "gmail.com", "test.com"])}'
+    return (
+        f'{get_random_string()}@'
+        f'{get_random_choice(["hotmail.com", "gmail.com", "test.com"])}'
+    )
 
 
 def get_random_sequence(length: int = 10) -> str:
