@@ -1,5 +1,6 @@
 import pytest
 
+
 def test_create_order_service(create_orders):
     for created_order in create_orders:
         order = created_order.json
