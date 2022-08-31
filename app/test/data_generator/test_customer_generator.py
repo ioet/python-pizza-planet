@@ -7,10 +7,8 @@ from ..utils.functions import *
 def test_customer_generator():
     
     assert CustomerGenerator.create_dummy_data(
-        {
-            'client_address': get_random_string(),
-            'client_dni': get_random_sequence(),
-            'client_name': get_random_string(),
-            'client_phone': get_random_sequence()
-        }
+            customer_address = get_random_string(),
+            customer_dni = get_random_sequence(),
+            customer_name = get_random_string(),
+            customer_phone = get_random_sequence()
     )
