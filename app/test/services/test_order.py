@@ -15,12 +15,14 @@ def test_create_order_service(create_orders):
     pytest.assume(order['size'])
     pytest.assume(order['total_price'])
 
+
 def test_get_orders_service(client, create_orders, order_uri):
     response = client.get(order_uri)
     pytest.assume(response.status.startswith('200'))
     returned_orders = {order['_id']: order for order in response.json}
     for order in create_orders:
         pytest.assume(order.json['_id'] in returned_orders)
+
 
 def test_get_order_by_id(client, create_orders, order_uri):
     current_order = create_orders[0].json
