@@ -18,7 +18,7 @@ def client_data_mock() -> dict:
 
 @pytest.fixture
 def order_uri():
-    return '/order'
+    return '/order/'
 
 
 @pytest.fixture
