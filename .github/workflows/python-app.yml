@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   build:
-    permissions: read-all|write-all
+    permissions: read-all
     runs-on: ubuntu-latest
 
     steps:
