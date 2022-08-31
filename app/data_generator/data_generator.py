@@ -18,3 +18,8 @@ class CustomerGenerator(DataGenerator):
         }
         return new_customer
     
+class ingredientGenerator(DataGenerator):
+
+    def create_dummy_data(name, price):
+        pass
+        
