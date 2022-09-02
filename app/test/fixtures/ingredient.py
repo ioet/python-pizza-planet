@@ -22,7 +22,7 @@ def ingredient():
 
 @pytest.fixture
 def ingredients():
-    return [ingredient_mock() for _ in range(5)]
+    return [ingredient_mock() for _ in range(3)]
 
 
 @pytest.fixture
@@ -38,3 +38,4 @@ def create_ingredients(client, ingredient_uri) -> list:
         new_ingredient = client.post(ingredient_uri, json=ingredient_mock())
         ingredients.append(new_ingredient.json)
     return ingredients
+    
