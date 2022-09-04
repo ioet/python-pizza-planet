@@ -85,3 +85,18 @@ def test_get_all(app, ingredients, sizes, client_data):
         assert current_id in searchable_orders
         for param, value in created_order.items():
             pytest.assume(searchable_orders[current_id][param] == value)
+
+
+def test_get_report_data(app, ingredients, sizes, client_data):
+    created_sizes, created_ingredients = __create_sizes_and_ingredients(ingredients, sizes)
+    created_orders = []
+    for _ in range(5):
+        order = __order(shuffle_list(created_ingredients)[:3], get_random_choice(created_sizes), client_data)
+        created_order, _ = OrderController.create(order)
+        created_orders.append(created_order)
+
+    [top_customers, top_ingredients, greatest_revenue_month], error = OrderController.get_report_data()
+    pytest.assume(error is None)
+    assert top_customers == [{'name': client_data['client_name'], 'number_of_orders':5}]
+    assert greatest_revenue_month['month'] == '09'
+    
