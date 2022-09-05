@@ -1,3 +1,4 @@
+from datetime import datetime
 from sqlalchemy.exc import SQLAlchemyError
 
 from ..common.utils import check_required_keys
@@ -31,6 +32,18 @@ class OrderController(BaseController):
 
         ingredient_ids = current_order.pop('ingredients', [])
         beverage_ids = current_order.pop('beverages', [])
+        # if type(current_order['date']) is str:
+        #     prueba = datetime(year= int(current_order['date'][:4]), month= int(current_order['date'][5]),
+        #     day= int(current_order['date'][7]), hour=int(current_order['date'][9]),
+        #     minute=int(current_order['date'][11:13]), second=int(current_order['date'][14:16]),
+        #     microsecond=int(current_order['date'][17:19]))
+        #     month= int(current_order['date'][5])
+        #     day= int(current_order['date'][7])
+        #     hour = int(current_order['date'][9])
+        #     minute = int(current_order['date'][11:13])
+        #     second = int(current_order['date'][14:16])
+        #     microsecod = int(current_order['date'][17:19])
+        #     current_order['date'] = prueba
         try:
             ingredients = IngredientManager.get_by_id_list(ingredient_ids)
             beverages = BeverageManager.get_by_id_list(beverage_ids)

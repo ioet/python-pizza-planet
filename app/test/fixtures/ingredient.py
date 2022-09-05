@@ -39,3 +39,13 @@ def create_ingredients(client, ingredient_uri) -> list:
         ingredients.append(new_ingredient.json)
     return ingredients
     
+@pytest.fixture
+def repeted_ingredients(ingredient) -> list:
+    most_repeated_ingredient = ingredient
+    ingredients = []
+    for _ in range(2):
+        ingredients.append(most_repeated_ingredient)
+        ingredients.append(most_repeated_ingredient)
+        ingredients.append(ingredient_mock())
+
+    return ingredients, most_repeated_ingredient

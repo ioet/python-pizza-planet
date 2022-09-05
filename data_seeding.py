@@ -1,6 +1,6 @@
 import json
 import random, requests
-
+from datetime import datetime
 from app.test.utils.functions import (get_random_phone, get_random_sequence)
 
 names = ["Jorge Salinas", "Carlos Martinez", "Pedro Perez", "Luis Rodriguez", "Amaranto Lopez", "Andres Parra", 
@@ -38,7 +38,13 @@ for i in range(1,101):
             **client_info[random_index-1][random_index],
             "ingredients":random.choices(ingredients, k=random.randrange(1,7)),
             "size_id" : random.randrange(1,4),
-            "beverages": random.choices(beverages, k=random.randrange(1,6))
+            "beverages": random.choices(beverages, k=random.randrange(1,6)),
+            # "date": "2015,6,5,8,10,10,10"
+            # #"date": datetime.utcnow().isoformat()
+            # #"date": datetime.today().isoformat()
         }
-    create_order = requests.post(order_url, json=data)
-    json_response = json.loads(create_order.text)
+    create_order = requests.post(order_url, json = data)
+    #create_order = requests.post(order_url, json = data)
+    print(create_order)
+    #json_response = json.loads(create_order)
+    

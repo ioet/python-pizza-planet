@@ -1,3 +1,4 @@
+from datetime import datetime
 import pytest
 from app.controllers import (IngredientController, OrderController,
                              SizeController)
@@ -15,6 +16,8 @@ def __order(ingredients: list, size: dict, client_data: dict, beverages: list):
         'ingredients': ingredients,
         'size_id': size_id,
         'beverages': beverages,
+        #'date': "2015,6,5,8,10,10,10"
+        #'date': '2022-09-04T16:04:26.713783'
     }
 
 
