@@ -52,30 +52,48 @@ def create_order(client, order, order_uri):
 
 
 @pytest.fixture
-def create_repeted_clients_and_ingredients_order(client, create_size, 
-                    ingredient_uri, create_beverages, client_data, ingredient, repeted_ingredients) -> dict:
+def create_repeted_clients_and_ingredients_order(create_ingredients, create_size, 
+     create_beverages, client_data):
     most_repeated_client = client_data
+    second_most_repeated_client = client_data_mock()
+    third_most_repeated_client = client_data_mock()
     orders = []
-    #most_repeated_ingredient_id = ingredient.get('_id')
-    ingredients_to_create, most_repeated_ingredient = repeted_ingredients
-    created_ingredients = [client.post(ingredient_uri, json=ingredient) for ingredient in ingredients_to_create]
-    ingredients = [ingredient.json.get('_id') for ingredient in created_ingredients]
+    ingredients = [ingredient.get('_id') for ingredient in create_ingredients]
     beverage = [beverage.get('_id') for beverage in create_beverages]
+    most_repeated_ingredient = ingredients[0]
     size_id = create_size.json.get('_id')
-    for _ in range(4):
+    for i in range(0,6):
         new_order = {
             **most_repeated_client,
-            'ingredients': ingredients,
+            'ingredients': [ingredients[0]],
             'size_id': size_id,
             'beverages': beverage
         }
         orders.append(new_order)
+        if i % 2 == 0:
+            new_order = {
+                **second_most_repeated_client,
+                'ingredients': [ingredients[0]],
+                'size_id': size_id,
+                'beverages': beverage
+            }
+            orders.append(new_order)
+
+        if i == 4 or i==5:
+            new_order = {
+                **third_most_repeated_client,
+                'ingredients': ingredients[0:5],
+                'size_id': size_id,
+                'beverages': beverage
+            }
+            orders.append(new_order)
+
         new_order = {
             **client_data_mock(),
-            'ingredients': ingredients,
+            'ingredients': ingredients[0:5],
             'size_id': size_id,
             'beverages': beverage
         }
         orders.append(new_order)
 
-    return orders, most_repeated_client, most_repeated_ingredient
+    return orders, most_repeated_client, most_repeated_ingredient, second_most_repeated_client, third_most_repeated_client

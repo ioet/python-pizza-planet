@@ -6,7 +6,7 @@ from app.services.base import BaseService
 
 beverage = Blueprint('beverage', __name__)
 
-beverage_base_service = BaseService(entity = "ingredient", 
+beverage_base_service = BaseService(entity = "beverage", 
         entitycontroller = BeverageController())
 
 @beverage.route('/', methods=POST)
