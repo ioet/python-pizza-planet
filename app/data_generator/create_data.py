@@ -1,11 +1,5 @@
-from datetime import datetime
 from random import randint
-from tqdm import tqdm
-from app.controllers import ingredient
-from app.data_generator.data_generator import CustomerGenerator
 from app.controllers.order import OrderController
-from app.repositories.managers import OrderManager
-from app.services.order import create_order
 
 def main():
 
@@ -41,19 +35,18 @@ def main():
         'Adams Marie', 
     ]
 
-    order = {
-        "client_address": "c 12 #36",
-        "client_dni": "1234",
-        "client_name": "Ivan",
-        "client_phone": "555-555-5555",
-        "ingredients": [
-            "7"
-        ],
-        "size_id": "17"
-    }
-
-    print(OrderController.create(order))
-
+    for round in range(1):
+        order = {
+            "client_address": "c 12 #36",
+            "client_dni": "1234",
+            "client_name": names[randint(1,15)],
+            "client_phone": "555-555-5555",
+            "ingredients": [
+                randint(1,10)
+            ],
+            "size_id": randint(13,17)
+        }
+        print(OrderController.create(order))
 
 
 if __name__ == '__main__':
