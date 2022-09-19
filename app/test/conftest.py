@@ -5,6 +5,7 @@ import pytest
 from app import create_app, register_blueprints
 from app.plugins import db, ma
 # flake8: noqa
+# pylint: disable=wildcard-import, unused-import, unused-wildcard-import
 from app.repositories.models import Ingredient, Order, OrderDetail, Size, Beverage
 
 from .fixtures.ingredient import *
@@ -13,13 +14,13 @@ from .fixtures.size import *
 from .fixtures.beverage import *
 
 
-@pytest.fixture
-def app():
+@pytest.fixture(name='app')
+def app_fixture():
 
     db_fd, dbpath = tempfile.mkstemp()
 
     class Config:
-        SQLALCHEMY_DATABASE_URI = 'sqlite:///{}'.format(dbpath)
+        SQLALCHEMY_DATABASE_URI = f'sqlite:///{dbpath}'
         TESTING = True
         SQLALCHEMY_TRACK_MODIFICATIONS = False
 
@@ -41,5 +42,4 @@ def app():
 
 @pytest.fixture
 def client(app):
-    client = app.test_client()
-    return client
+    return app.test_client()

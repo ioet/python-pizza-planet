@@ -10,8 +10,8 @@ def ingredient_mock() -> dict:
     }
 
 
-@pytest.fixture
-def ingredient_uri():
+@pytest.fixture(name='ingredient_uri')
+def ingredient_uri_name():
     return '/ingredient/'
 
 
@@ -33,8 +33,7 @@ def create_ingredient(client, ingredient_uri) -> dict:
 
 @pytest.fixture
 def create_ingredients(client, ingredient_uri) -> list:
-    ingredients = []
-    for _ in range(10):
-        new_ingredient = client.post(ingredient_uri, json=ingredient_mock())
-        ingredients.append(new_ingredient.json)
-    return ingredients
+    return [
+        client.post(ingredient_uri, json=ingredient_mock()).json
+        for _ in range(10)
+    ]

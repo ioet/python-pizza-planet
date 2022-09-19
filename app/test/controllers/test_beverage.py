@@ -2,6 +2,7 @@ import pytest
 from app.controllers import BeverageController
 
 
+# pylint: disable=unused-argument
 def test_create(app, beverage: dict):
     created_beverage, error = BeverageController.create(beverage)
     pytest.assume(error is None)

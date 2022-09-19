@@ -1,3 +1,6 @@
 {
-    "liveServer.settings.root": "/ui"
+    "liveServer.settings.root": "/ui",
+    "python.linting.enabled": true,
+    "python.linting.pylintEnabled": true,
+    "python.linting.lintOnSave": true,
 }

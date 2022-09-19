@@ -10,8 +10,8 @@ def beverage_mock() -> dict:
     }
 
 
-@pytest.fixture
-def beverage_uri():
+@pytest.fixture(name='beverage_uri')
+def beverage_uri_name():
     return '/beverage/'
 
 
@@ -33,8 +33,7 @@ def create_beverage(client, beverage_uri) -> dict:
 
 @pytest.fixture
 def create_beverages(client, beverage_uri) -> list:
-    beverages = []
-    for _ in range(10):
-        new_beverage = client.post(beverage_uri, json=beverage_mock())
-        beverages.append(new_beverage.json)
-    return beverages
+    return [
+        client.post(beverage_uri, json=beverage_mock()).json
+        for _ in range(10)
+    ]

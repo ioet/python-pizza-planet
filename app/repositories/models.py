@@ -15,18 +15,23 @@ class Order(db.Model):
     size = db.relationship('Size', backref=db.backref('size'))
     detail = db.relationship('OrderDetail', backref=db.backref('order_detail'))
 
+    def get_id(self):
+        return self._id
+
 
 class Ingredient(db.Model):
     _id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), nullable=False)
     price = db.Column(db.Float, nullable=False)
 
+    def get_id(self):
+        return self._id
+
 
 class Beverage(db.Model):
     _id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), nullable=False)
     price = db.Column(db.Float, nullable=False)
-
 
 
 class Size(db.Model):

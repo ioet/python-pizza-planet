@@ -13,12 +13,14 @@ class OrderController(BaseController):
 
     @staticmethod
     def calculate_order_price(size_price: float, ingredients: list, beverages: list):
-        price = sum(_order_detail.price for _order_detail in [*ingredients, *beverages]) + size_price
+        price = sum(
+            _order_detail.price for _order_detail in [*ingredients, *beverages]
+        ) + size_price
         return round(price, 2)
 
     @classmethod
-    def create(cls, order: dict):
-        current_order = order.copy()
+    def create(cls, entry: dict):
+        current_order = entry.copy()
         if not check_required_keys(cls.__required_info, current_order):
             return 'Invalid order payload', None
 
@@ -42,7 +44,7 @@ class OrderController(BaseController):
     @classmethod
     def get_best_ingredients(cls):
         return cls.manager.get_best_ingredients()
-    
+
     @classmethod
     def get_best_customers(cls):
         return cls.manager.get_best_customers()

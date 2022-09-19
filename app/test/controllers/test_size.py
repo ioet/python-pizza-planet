@@ -2,6 +2,7 @@ import pytest
 from app.controllers import SizeController
 
 
+# pylint: disable=unused-argument
 def test_create(app, size: dict):
     created_size, error = SizeController.create(size)
     pytest.assume(error is None)

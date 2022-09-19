@@ -10,8 +10,8 @@ def size_mock() -> dict:
     }
 
 
-@pytest.fixture
-def size_uri():
+@pytest.fixture(name='size_uri')
+def size_uri_name():
     return '/size/'
 
 
@@ -33,8 +33,7 @@ def create_size(client, size_uri) -> dict:
 
 @pytest.fixture
 def create_sizes(client, size_uri) -> list:
-    sizes = []
-    for _ in range(10):
-        new_size = client.post(size_uri, json=size_mock())
-        sizes.append(new_size.json)
-    return sizes
+    return [
+        client.post(size_uri, json=size_mock()).json
+        for _ in range(10)
+    ]

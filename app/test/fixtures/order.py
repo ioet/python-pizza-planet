@@ -13,18 +13,18 @@ def client_data_mock() -> dict:
     }
 
 
-@pytest.fixture
-def order_uri():
+@pytest.fixture(name='order_uri')
+def order_uri_name():
     return '/order'
 
 
-@pytest.fixture
-def client_data():
+@pytest.fixture(name='client_data')
+def client_data_fixture():
     return client_data_mock()
 
 
 @pytest.fixture
-def order(create_ingredients, create_size, client_data) -> dict:
+def order(create_ingredients, create_size, client_data) -> dict:  # pylint: disable=unused-argument
     ingredients = [ingredient.get('_id') for ingredient in create_ingredients]
     size_id = create_size.get('_id')
     return {
