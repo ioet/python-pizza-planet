@@ -20,7 +20,7 @@ jobs:
         run: make install-requirements
 
       - name: Run formatter check
-        run: make linters
+        run: make run-linters
 
       - name: Run Test
         run: make pytest
