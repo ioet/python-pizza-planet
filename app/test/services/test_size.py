@@ -7,3 +7,4 @@ def test_get_size_service(client, create_size, size_uri):
         size['_id']: size for size in response.json}
     for size in create_size:
         pytest.assume(size['_id'] in returned_sizes)
+        
