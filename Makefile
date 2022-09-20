@@ -17,4 +17,4 @@ run-linters:
 	flake8 app/ manage.py
 
 pytest:
-	python3 manage.py test
+	pytest -v app/test
