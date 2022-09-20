@@ -50,7 +50,10 @@ class IngredientManager(BaseManager):
 
     @classmethod
     def get_by_id_list(cls, ids: Sequence):
-        return cls.session.query(cls.model).filter(cls.model._id.in_(set(ids))).all() or []
+        return cls.session.query(
+            cls.model).filter(
+            cls.model._id.in_(
+                set(ids))).all() or []
 
 
 class OrderManager(BaseManager):
@@ -63,8 +66,12 @@ class OrderManager(BaseManager):
         cls.session.add(new_order)
         cls.session.flush()
         cls.session.refresh(new_order)
-        cls.session.add_all((OrderDetail(order_id=new_order._id, ingredient_id=ingredient._id, ingredient_price=ingredient.price)
-                             for ingredient in ingredients))
+        cls.session.add_all(
+            (OrderDetail(
+                order_id=new_order._id,
+                ingredient_id=ingredient._id,
+                ingredient_price=ingredient.price)
+                for ingredient in ingredients))
         cls.session.commit()
         return cls.serializer().dump(new_order)
 
