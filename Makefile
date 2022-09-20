@@ -13,7 +13,7 @@ run-formatter:
 	autopep8 --recursive --in-place --max-line-length 79 --aggressive --aggressive app
 	autopep8 --in-place --max-line-length 79 --aggressive --aggressive manage.py
 
-linters:
+run-linters:
 	flake8 app/ manage.py
 
 pytest:
