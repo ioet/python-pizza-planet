@@ -13,6 +13,10 @@ def get_random_choice(choices: Union[tuple, list]) -> Any:
     return random.choice(choices)
 
 
+def get_random_sample(population: Union[tuple, list, set], k: int) -> Any:
+    return random.sample(population, k)
+
+
 def get_random_price(lower_bound: float, upper_bound: float) -> float:
     return round(random.uniform(lower_bound, upper_bound), 2)
 
@@ -35,3 +39,7 @@ def get_random_sequence(length: int = 10) -> str:
 
 def get_random_phone() -> str:
     return get_random_sequence(10)
+
+
+def get_random_quantity(lower_bound: int = 1, upper_bound: int = 3) -> int:
+    return random.randint(lower_bound, upper_bound)
