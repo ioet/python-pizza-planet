@@ -18,8 +18,9 @@ migrate.init_app(flask_app, db)
 
 @manager.command('test', with_appcontext=False)
 def test():
-    os.system("coverage run -m pytest -v ./app/test")
-    os.system("coverage report -m")
+    os.system('coverage run -m pytest -v ./app/test')
+    os.system('coverage report --omit=app/test/*')
+    
 
 
 if __name__ == '__main__':
