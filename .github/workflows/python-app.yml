@@ -37,3 +37,7 @@ jobs:
     - name: Test with pytest
       run: |
         pytest
+
+    - name: Test coverage
+      run: |
+        pytest --cov=./app --cov-report=term-missing
