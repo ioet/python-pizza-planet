@@ -1,6 +1,6 @@
 from typing import Any, Optional, Tuple
 from sqlalchemy.exc import SQLAlchemyError
-from ..repositories.managers import BaseManager
+from ..repositories.managers.base_manager import BaseManager
 
 
 class BaseController:

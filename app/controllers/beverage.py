@@ -1,6 +1,5 @@
-from ..repositories.managers import BeverageManager
 from .base import BaseController
-
+from ..repositories.managers.managers import beverage_manager
 
 class BeverageController(BaseController):
-    manager = BeverageManager
+    manager = beverage_manager

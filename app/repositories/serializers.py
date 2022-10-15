@@ -1,4 +1,4 @@
-from app.plugins import ma
+from app.plugins import ma, db
 from .models import Beverage, Ingredient, Size, Order, OrderDetail
 
 
