@@ -26,5 +26,3 @@ jobs:
 
     - name: Testing pizza planet app
       run: python3 manage.py test
-    - name: Coverage
-      run: pytest --cov
