@@ -9,6 +9,7 @@ from app.plugins import db
 # flake8: noqa
 from app.repositories.models import Ingredient, Order, OrderDetail, Size
 
+import script_seeder.seeder
 
 manager = FlaskGroup(flask_app)
 
@@ -20,6 +21,9 @@ migrate.init_app(flask_app, db)
 def test():
     return pytest.main(['-v', './app/test'])
 
-
+@manager.command('seed')
+def seed():
+    script_seeder.seeder.seeder_factory()
+        
 if __name__ == '__main__':
     manager()

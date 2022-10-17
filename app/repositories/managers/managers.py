@@ -11,4 +11,6 @@ ingredient_manager = BaseManager(Ingredient, IngredientSerializer)
 
 order_manager = BaseManager(Order, OrderSerializer)
 
+report_manager = BaseManager(None, None)
+
 index_manager = BaseManager(None, None)

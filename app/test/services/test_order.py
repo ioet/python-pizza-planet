@@ -11,7 +11,6 @@ def test_get_order_service(client, create_orders, order_uri):
 
 def test_create_order_service(create_order):
     order = create_order
-    print(order.json)
     pytest.assume(create_order.status.startswith('200'))
     pytest.assume(order.json['_id'])
     pytest.assume(order.json['client_dni'])

@@ -1,4 +1,5 @@
 from datetime import datetime
+from email.policy import default
 
 from app.plugins import db
 
@@ -12,7 +13,7 @@ class Order(db.Model):
     date = db.Column(db.DateTime, default=datetime.utcnow)
     total_price = db.Column(db.Float)
     size_id = db.Column(db.Integer, db.ForeignKey('size._id'))
-
+    from_seeder = db.Column(db.Boolean, default=False)
     size = db.relationship('Size', backref=db.backref('size'))
     detail = db.relationship('OrderDetail', backref=db.backref('order_detail'))
 
