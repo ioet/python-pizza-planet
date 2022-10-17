@@ -23,7 +23,6 @@ class BaseManager:
                 Order.client_name,
                 func.count(Order.client_name).label('orders')).group_by('client_name').order_by(desc('orders')).all()
         
-        print(orders)
         if len(orders) == 0:
             return []
         customers = order_serializer.dump(orders)[0:3]
