@@ -112,3 +112,10 @@ ext install ritwickdey.LiveServer
 ```bash
 python3 manage.py test
 ```
+### Populating database
+
+- Run the seeder command
+
+```bash
+python3 manage.py seed
+```
