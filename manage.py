@@ -1,5 +1,3 @@
-
-
 import pytest
 from flask.cli import FlaskGroup
 from flask_migrate import Migrate

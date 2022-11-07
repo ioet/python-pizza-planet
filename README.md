@@ -32,7 +32,7 @@ git clone https://github.com/ioet/python-pizza-planet.git
 - Create a virtual environment in the root folder of the project
 
 ```bash
-python3 -m venv venv
+make create_environment
 ```
 
 - Activate the virtual environment (In vscode if you select the virtual env for your project it will activate once you open a new console window)
@@ -40,7 +40,7 @@ python3 -m venv venv
 _For linux/MacOS users:_
 
 ```bash
-source venv/bin/activate 
+source .venv/bin/activate 
 ```
 
 _For windows users:_
@@ -52,15 +52,37 @@ _For windows users:_
 - Install all necessary dependencies:
 
 ```bash
-pip3 install -r requirements.txt
+make install_dependencies
 ```
 
 - Start the database (Only needed for the first run):
 
 ```bash
-python3 manage.py db init
-python3 manage.py db migrate
-python3 manage.py db upgrade
+make start_database
+```
+
+- Start the server
+
+```bash
+make start_server
+```
+
+- Start the server whit hot reload
+
+```bash
+make start_server_hot_reload
+```
+
+- Execute test lint
+
+```bash
+make run_lint
+```
+
+- Execute test
+
+```bash
+make run_tests
 ```
 
 - If you want to use the hot reload feature set FLASK_ENV before running the project:

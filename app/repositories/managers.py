@@ -3,8 +3,12 @@ from typing import Any, List, Optional, Sequence
 from sqlalchemy.sql import text, column
 
 from .models import Ingredient, Order, OrderDetail, Size, db
-from .serializers import (IngredientSerializer, OrderSerializer,
-                          SizeSerializer, ma)
+from .serializers import (
+    IngredientSerializer,
+    OrderSerializer,
+    SizeSerializer,
+    ma,
+)
 
 
 class BaseManager:
@@ -50,7 +54,8 @@ class IngredientManager(BaseManager):
 
     @classmethod
     def get_by_id_list(cls, ids: Sequence):
-        return cls.session.query(cls.model).filter(cls.model._id.in_(set(ids))).all() or []
+        query = cls.session.query(cls.model)
+        return query.filter(cls.model._id.in_(set(ids))).all() or []
 
 
 class OrderManager(BaseManager):
@@ -63,18 +68,25 @@ class OrderManager(BaseManager):
         cls.session.add(new_order)
         cls.session.flush()
         cls.session.refresh(new_order)
-        cls.session.add_all((OrderDetail(order_id=new_order._id, ingredient_id=ingredient._id, ingredient_price=ingredient.price)
-                             for ingredient in ingredients))
+        cls.session.add_all(
+            (
+                OrderDetail(
+                    order_id=new_order._id,
+                    ingredient_id=ingredient._id,
+                    ingredient_price=ingredient.price,
+                )
+                for ingredient in ingredients
+            )
+        )
         cls.session.commit()
         return cls.serializer().dump(new_order)
 
     @classmethod
     def update(cls):
-        raise NotImplementedError(f'Method not suported for {cls.__name__}')
+        raise NotImplementedError(f"Method not suported for {cls.__name__}")
 
 
 class IndexManager(BaseManager):
-
     @classmethod
     def test_connection(cls):
-        cls.session.query(column('1')).from_statement(text('SELECT 1')).all()
+        cls.session.query(column("1")).from_statement(text("SELECT 1")).all()
