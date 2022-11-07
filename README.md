@@ -26,7 +26,7 @@ You will need the following general tools:
 - Clone the repo
 
 ```bash
-git clone https://github.com/ioet/python-pizza-planet.git
+git clone https://github.com/kmzurita/python-pizza-planet.git
 ```
 
 - Create a virtual environment in the root folder of the project
