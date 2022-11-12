@@ -20,7 +20,7 @@ def test_create_order_service(create_order):
 
 def test_get_order_by_id_service(client, create_order, order_uri):
     current_order = create_order.json
-    response = client.get(f'{order_uri}id/{current_order["_id"]}')
+    response = client.get(f'{order_uri}{current_order["_id"]}')
     pytest.assume(response.status.startswith('200'))
     returned_order = response.json
     for param, value in current_order.items():

@@ -14,7 +14,7 @@ def create_beverage():
 def update_beverage():
     return instance_controller(BeverageController.update(request.json))
 
-@beverage.route('/id/<_id>', methods=GET)
+@beverage.route('/<_id>', methods=GET)
 def get_beverage_by_id(_id: int):
     return instance_controller(BeverageController.get_by_id(_id))
 

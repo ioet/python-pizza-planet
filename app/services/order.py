@@ -10,7 +10,7 @@ order = Blueprint('order', __name__)
 def create_order():
     return instance_controller(OrderController.create(request.json))
 
-@order.route('/id/<_id>', methods=GET)
+@order.route('/<_id>', methods=GET)
 def get_order_by_id(_id: int):
     return instance_controller(OrderController.get_by_id(_id))
 

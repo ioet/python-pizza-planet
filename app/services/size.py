@@ -14,7 +14,7 @@ def create_size():
 def update_size():
     return instance_controller(SizeController.update(request.json))
 
-@size.route('/id/<_id>', methods=GET)
+@size.route('/<_id>', methods=GET)
 def get_size_by_id(_id: int):
     return instance_controller(SizeController.get_by_id(_id))
 

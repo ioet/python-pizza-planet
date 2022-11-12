@@ -23,7 +23,7 @@ def test_update_ingredient_service(client, create_ingredient, ingredient_uri):
 
 def test_get_ingredient_by_id_service(client, create_ingredient, ingredient_uri):
     current_ingredient = create_ingredient.json
-    response = client.get(f'{ingredient_uri}id/{current_ingredient["_id"]}')
+    response = client.get(f'{ingredient_uri}{current_ingredient["_id"]}')
     pytest.assume(response.status.startswith('200'))
     returned_ingredient = response.json
     for param, value in current_ingredient.items():

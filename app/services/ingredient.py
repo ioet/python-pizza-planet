@@ -14,7 +14,7 @@ def create_ingredient():
 def update_ingredient():
     return instance_controller(IngredientController.update(request.json))
 
-@ingredient.route('/id/<_id>', methods=GET)
+@ingredient.route('/<_id>', methods=GET)
 def get_ingredient_by_id(_id: int):
     return instance_controller(IngredientController.get_by_id(_id))
 
