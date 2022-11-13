@@ -10,7 +10,6 @@ def seeder_factory():
         order_manager.create_order(order_data=order["order_data"],
         ingredients=order["ingredients"],
         beverages=order["beverages"],
-        from_seeder= True
         )
 
 if __name__ == '__main__':

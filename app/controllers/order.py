@@ -12,7 +12,7 @@ class OrderController(BaseController):
 
     @staticmethod
     def calculate_order_price(size_price: float, ingredients: list, beverages: list):
-        price = sum(ingredient.price for ingredient in ingredients) + size_price + sum(beverage.price for beverage in beverages)
+        price = sum(ingredient['price'] for ingredient in ingredients) + size_price + sum(beverage['price'] for beverage in beverages)
         return round(price, 2)
 
     @classmethod
@@ -27,13 +27,19 @@ class OrderController(BaseController):
         if not size:
             return 'Invalid size for Order', None
 
-        ingredient_ids = current_order.pop('ingredients', [])
-        beverage_ids = current_order.pop('beverages', [])
         try:
-            ingredients = ingredient_manager.get_by_id_list(ingredient_ids)
-            beverages = beverage_manager.get_by_id_list(beverage_ids)
+            ingredient_ids = current_order.pop('ingredients', [])
+            beverage_ids = current_order.pop('beverages', [])
+            ingredients = [ingredient.__dict__ for ingredient in ingredient_manager.get_by_id_list(ingredient_ids)]
+            beverages = [beverage.__dict__ for beverage in beverage_manager.get_by_id_list(beverage_ids)]
             price = cls.calculate_order_price(size.get('price'), ingredients, beverages)
-            order_with_price = {**current_order, 'total_price': price}
-            return cls.manager.create_order(order_with_price, ingredients, beverages, order.get('from_seeder')), None
+            order_with_price = {
+                'client_name': current_order.get('client_name'), 
+                'client_dni': current_order.get('client_dni'), 
+                'client_address': current_order.get('client_address'), 
+                'client_phone': current_order.get('client_phone'),
+                'total_price': price
+                }
+            return cls.manager.create_order(order_with_price, ingredients, beverages), None
         except (SQLAlchemyError, RuntimeError) as ex:
             return None, str(ex)
