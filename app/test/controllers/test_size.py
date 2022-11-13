@@ -2,7 +2,7 @@ import pytest
 from app.controllers import SizeController
 
 
-def test_create(app, size: dict):
+def test__create__when_a_size_is_created_successfully_returns_the_size(app, size: dict):
     created_size, error = SizeController.create(size)
     pytest.assume(error is None)
     for param, value in size.items():
@@ -11,7 +11,7 @@ def test_create(app, size: dict):
         pytest.assume(created_size['_id'])
 
 
-def test_update(app, size: dict):
+def test__update_controller_should_update_a_size(app, size: dict):
     created_size, _ = SizeController.create(size)
     updated_fields = {
         'name': 'updated',
@@ -26,7 +26,7 @@ def test_update(app, size: dict):
         pytest.assume(updated_size[param] == value)
 
 
-def test_get_by_id(app, size: dict):
+def test__get_by_id_controller(app, size: dict):
     created_size, _ = SizeController.create(size)
     size_from_db, error = SizeController.get_by_id(created_size['_id'])
     pytest.assume(error is None)
@@ -34,7 +34,7 @@ def test_get_by_id(app, size: dict):
         pytest.assume(size_from_db[param] == value)
 
 
-def test_get_all(app, sizes: list):
+def test__get_all_controller(app, sizes: list):
     created_sizes = []
     for size in sizes:
         created_size, _ = SizeController.create(size)

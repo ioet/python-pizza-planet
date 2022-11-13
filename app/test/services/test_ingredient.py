@@ -3,7 +3,7 @@ import pytest
 from app.test.utils.functions import get_random_string, get_random_price
 
 
-def test_create_ingredient_service(create_ingredient):
+def test__create_ingredient_service_when_status_is_200_should_return_the_ingredient_created(create_ingredient):
     ingredient = create_ingredient.json
     pytest.assume(create_ingredient.status.startswith('200'))
     pytest.assume(ingredient['_id'])
@@ -11,7 +11,7 @@ def test_create_ingredient_service(create_ingredient):
     pytest.assume(ingredient['price'])
 
 
-def test_update_ingredient_service(client, create_ingredient, ingredient_uri):
+def test__update_ingredient_service_when_status_is_200_should_return_the_ingredient_updated(client, create_ingredient, ingredient_uri):
     current_ingredient = create_ingredient.json
     update_data = {**current_ingredient, 'name': get_random_string(), 'price': get_random_price(1, 5)}
     response = client.put(ingredient_uri, json=update_data)
@@ -21,7 +21,7 @@ def test_update_ingredient_service(client, create_ingredient, ingredient_uri):
         pytest.assume(updated_ingredient[param] == value)
 
 
-def test_get_ingredient_by_id_service(client, create_ingredient, ingredient_uri):
+def test__get_ingredient_by_id_service_when_status_is_200_should_return_the_properly_ingredient(client, create_ingredient, ingredient_uri):
     current_ingredient = create_ingredient.json
     response = client.get(f'{ingredient_uri}{current_ingredient["_id"]}')
     pytest.assume(response.status.startswith('200'))
@@ -30,7 +30,7 @@ def test_get_ingredient_by_id_service(client, create_ingredient, ingredient_uri)
         pytest.assume(returned_ingredient[param] == value)
 
 
-def test_get_ingredients_service(client, create_ingredients, ingredient_uri):
+def test__get_ingredients_service_when_status_is_200_should_return_all_ingredients(client, create_ingredients, ingredient_uri):
     response = client.get(ingredient_uri)
     pytest.assume(response.status.startswith('200'))
     returned_ingredients = {ingredient['_id']: ingredient for ingredient in response.json}

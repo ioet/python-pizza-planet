@@ -1,6 +1,6 @@
 import pytest
 
-def test_get_report(client, report_uri, create_orders):
+def test__get_report_service_when_status_is_200_should_return_the_report(client, report_uri, create_orders):
     response = client.get(report_uri)
     
     pytest.assume(response.status.startswith('200'))

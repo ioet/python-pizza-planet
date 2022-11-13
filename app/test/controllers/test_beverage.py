@@ -1,7 +1,7 @@
 import pytest
 from app.controllers import BeverageController
 
-def test_create(app, beverage: dict):
+def test__create__when_a_beverage_is_created_successfully_returns_the_beverage(app, beverage: dict):
     created_beverage, error = BeverageController.create(beverage)
     pytest.assume(error is None)
     for param, value in beverage.items():
@@ -10,7 +10,7 @@ def test_create(app, beverage: dict):
         pytest.assume(created_beverage['_id'])
 
 
-def test_update(app, beverage: dict):
+def test__update_controller_should_update_a_beverage(app, beverage: dict):
     created_beverage, _ = BeverageController.create(beverage)
     updated_fields = {
         'name': 'updated',
@@ -28,7 +28,7 @@ def test_update(app, beverage: dict):
         pytest.assume(beverage_from_database[param] == value)
 
 
-def test_get_by_id(app, beverage: dict):
+def test__get_by_id_controller(app, beverage: dict):
     created_beverage, _ = BeverageController.create(beverage)
     beverage_from_db, error = BeverageController.get_by_id(created_beverage['_id'])
     pytest.assume(error is None)
@@ -36,7 +36,7 @@ def test_get_by_id(app, beverage: dict):
         pytest.assume(beverage_from_db[param] == value)
 
 
-def test_get_all(app, beverages: list):
+def test__get_all_controller(app, beverages: list):
     created_beverages = []
     for beverage in beverages:
         created_beverage, _ = BeverageController.create(beverage)
