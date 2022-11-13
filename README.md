@@ -80,7 +80,7 @@ set FLASK_ENV=development
 - Run the project with:
 
 ```bash
-python3 manage.py run
+make run
 ```
 
 ## Running the frontend
@@ -110,12 +110,12 @@ ext install ritwickdey.LiveServer
 - Run the test command
 
 ```bash
-python3 manage.py test
+make test
 ```
 ### Populating database
 
 - Run the seeder command
 
 ```bash
-python3 manage.py seed
+make seed
 ```
