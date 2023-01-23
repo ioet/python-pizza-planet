@@ -1,0 +1,43 @@
+name: PIZZA-PLANET-CI
+
+on:
+  push:
+    branches:
+      - "main"
+
+jobs:
+  cd:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10"]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: |
+            python -m pip install --upgrade pip
+            pip install -r ./requirements.txt
+
+      - name: run test
+        run: |
+          python manage.py test
+    
+      - name: Slack Notification
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_TITLE: Pizza planet Continues deployment"
+          SLACK_USERNAME: "Rouderz"
+          SLACK_CHANNEL: "pizza-planet-devops"
+          SLACK_COLOR: ${{ job.status }}
+          SLACK_ICON: https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F19%2F2014%2F07%2F10%2Fpepperoni-pizza-ck-x.jpg&q=60?size=48
+
+
