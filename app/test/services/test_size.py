@@ -1,5 +1,4 @@
 import pytest
-import json
 
 from app.test.utils.functions import get_random_string, get_random_price
 
