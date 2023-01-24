@@ -3,8 +3,12 @@ from typing import Any, List, Optional, Sequence
 from sqlalchemy.sql import text, column
 
 from .models import Beverage, Ingredient, Order, OrderDetail, Size, db
-from .serializers import (IngredientSerializer, OrderSerializer,
-                          SizeSerializer, ma, BeverageSerializer)
+
+from .serializers.beverage import BeverageSerializer
+from .serializers.order import OrderSerializer
+from .serializers.ingredient import IngredientSerializer
+# from .serializers.order_detail import OrderDetailSerializer
+from .serializers.size import SizeSerializer, ma
 
 
 class BaseManager:

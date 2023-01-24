@@ -2,7 +2,7 @@ from sqlalchemy.exc import SQLAlchemyError
 
 from ..common.utils import check_required_keys
 from ..repositories.managers import (IngredientManager, OrderManager,
-                                     SizeManager)
+                                     SizeManager, BeverageManager)
 from .base import BaseController
 
 
@@ -28,8 +28,10 @@ class OrderController(BaseController):
             return 'Invalid size for Order', None
 
         ingredient_ids = current_order.pop('ingredients', [])
+        beverage_ids = current_order.pop('beverages', [])
         try:
             ingredients = IngredientManager.get_by_id_list(ingredient_ids)
+            beverages = BeverageManager.get_by_id_list(beverage_ids)
             price = cls.calculate_order_price(size.get('price'), ingredients)
             order_with_price = {**current_order, 'total_price': price}
             return cls.manager.create(order_with_price, ingredients), None
