@@ -12,12 +12,13 @@ def test_create(app, size: dict):
 
 
 def test_update(app, size: dict):
-    created_size, _ = SizeController.create(size)
+    created_size, _ = SizeController.create(entry= size)
     updated_fields = {
         'name': 'updated',
         'price': 10
     }
-    updated_size, error = SizeController.update({
+    updated_size, error = SizeController.update(
+        new_values= {
         '_id': created_size['_id'],
         **updated_fields
     })
@@ -27,8 +28,8 @@ def test_update(app, size: dict):
 
 
 def test_get_by_id(app, size: dict):
-    created_size, _ = SizeController.create(size)
-    size_from_db, error = SizeController.get_by_id(created_size['_id'])
+    created_size, _ = SizeController.create(entry= size)
+    size_from_db, error = SizeController.get_by_id(_id= created_size['_id'])
     pytest.assume(error is None)
     for param, value in created_size.items():
         pytest.assume(size_from_db[param] == value)
@@ -37,7 +38,7 @@ def test_get_by_id(app, size: dict):
 def test_get_all(app, sizes: list):
     created_sizes = []
     for size in sizes:
-        created_size, _ = SizeController.create(size)
+        created_size, _ = SizeController.create(entry= size)
         created_sizes.append(created_size)
 
     sizes_from_db, error = SizeController.get_all()
