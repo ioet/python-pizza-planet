@@ -10,6 +10,6 @@ class IndexController:
     def test_connection() -> Tuple[bool, str]:
         try:
             IndexManager.test_connection()
-            return True, ''
+            return True, 'database connection successful'
         except (SQLAlchemyError, RuntimeError) as ex:
             return False, str(ex)
