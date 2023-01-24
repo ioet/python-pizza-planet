@@ -2,9 +2,9 @@ from typing import Any, List, Optional, Sequence
 
 from sqlalchemy.sql import text, column
 
-from .models import Ingredient, Order, OrderDetail, Size, db
+from .models import Beverage, Ingredient, Order, OrderDetail, Size, db
 from .serializers import (IngredientSerializer, OrderSerializer,
-                          SizeSerializer, ma)
+                          SizeSerializer, ma, BeverageSerializer)
 
 
 class BaseManager:
@@ -78,3 +78,11 @@ class IndexManager(BaseManager):
     @classmethod
     def test_connection(cls):
         cls.session.query(column('1')).from_statement(text('SELECT 1')).all()
+
+class BeverageManager(BaseManager):
+    model = Beverage
+    serializer = BeverageSerializer
+
+    @classmethod
+    def get_by_id_list(cls, ids: Sequence):
+        return cls.session.query(cls.model).filter(cls.model._id.in_(set(ids))).all() or []
