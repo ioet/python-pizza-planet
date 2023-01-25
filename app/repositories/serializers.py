@@ -1,5 +1,5 @@
 from app.plugins import ma
-from .models import Ingredient, Size, Order, OrderDetail
+from .models import Ingredient, Size, Order, OrderDetail, Beverage, BeverageOrderDetail
 
 
 class IngredientSerializer(ma.SQLAlchemyAutoSchema):
@@ -17,6 +17,13 @@ class SizeSerializer(ma.SQLAlchemyAutoSchema):
         load_instance = True
         fields = ('_id', 'name', 'price')
 
+class BeverageSerializer(ma.SQLAlchemyAutoSchema):
+
+    class Meta:
+        model = Beverage
+        load_instance = True
+        fields = ('_id', 'name', 'price')
+
 
 class OrderDetailSerializer(ma.SQLAlchemyAutoSchema):
 
@@ -30,11 +37,23 @@ class OrderDetailSerializer(ma.SQLAlchemyAutoSchema):
             'ingredient'
         )
 
+class BeverageOrderDetailSerializer(ma.SQLAlchemyAutoSchema):
+
+    beverage = ma.Nested(BeverageSerializer)
+
+    class Meta:
+        model = BeverageOrderDetail
+        load_instance = True
+        fields = (
+            'beverage_price',
+            'beverage'
+        )
+
 
 class OrderSerializer(ma.SQLAlchemyAutoSchema):
     size = ma.Nested(SizeSerializer)
     detail = ma.Nested(OrderDetailSerializer, many=True)
-
+    beverage_detail = ma.Nested(BeverageOrderDetailSerializer, many=True)
     class Meta:
         model = Order
         load_instance = True
@@ -47,5 +66,6 @@ class OrderSerializer(ma.SQLAlchemyAutoSchema):
             'date',
             'total_price',
             'size',
-            'detail'
+            'detail',
+            'beverage_detail'
         )
