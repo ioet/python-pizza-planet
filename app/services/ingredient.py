@@ -1,38 +1,26 @@
 from app.common.http_methods import GET, POST, PUT
-from flask import Blueprint, jsonify, request
-
-from ..controllers import IngredientController
+from flask import Blueprint
+from app.controllers.controller_factory import ControllerFactory
+from app.services.service import Service
 
 ingredient = Blueprint('ingredient', __name__)
-
+controller = ControllerFactory.get_controller('ingredient')
 
 @ingredient.route('/', methods=POST)
 def create_ingredient():
-    ingredient, error = IngredientController.create(request.json)
-    response = ingredient if not error else {'error': error}
-    status_code = 200 if not error else 400
-    return jsonify(response), status_code
+    return Service.create(controller= controller)
 
 
 @ingredient.route('/', methods=PUT)
 def update_ingredient():
-    ingredient, error = IngredientController.update(request.json)
-    response = ingredient if not error else {'error': error}
-    status_code = 200 if not error else 400
-    return jsonify(response), status_code
+    return Service.update(controller= controller)
 
 
 @ingredient.route('/id/<_id>', methods=GET)
 def get_ingredient_by_id(_id: int):
-    ingredient, error = IngredientController.get_by_id(_id)
-    response = ingredient if not error else {'error': error}
-    status_code = 200 if ingredient else 404 if not error else 400
-    return jsonify(response), status_code
+    return Service.get_by_id(_id= _id ,controller= controller)
 
 
 @ingredient.route('/', methods=GET)
 def get_ingredients():
-    ingredients, error = IngredientController.get_all()
-    response = ingredients if not error else {'error': error}
-    status_code = 200 if ingredients else 404 if not error else 400
-    return jsonify(response), status_code
+    return Service.get_all(controller= controller)
