@@ -25,3 +25,9 @@ test:
 
 test-coverage:
 	coverage run -m pytest
+
+run-pre-commit:
+	pre-commit run --all-files
+
+lint:
+	flake8
