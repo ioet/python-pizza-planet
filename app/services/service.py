@@ -1,7 +1,7 @@
 from flask import  jsonify, request
 from dataclasses import dataclass
 
-from app.controllers.controller_factory import ControllerFactory
+from app.controllers.controller import ControllerFactory
 
 @dataclass
 class Service():

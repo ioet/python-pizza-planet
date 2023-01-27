@@ -1,6 +1,6 @@
 from app.common.http_methods import GET, POST, PUT
 from flask import Blueprint
-from app.controllers.controller_factory import ControllerFactory
+from app.controllers.controller import ControllerFactory
 from app.services.service import Service
 
 ingredient = Blueprint('ingredient', __name__)

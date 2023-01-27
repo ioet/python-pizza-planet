@@ -3,7 +3,7 @@ from flask import Blueprint, jsonify, request
 
 from app.services.service import Service
 
-from ..controllers.controller_factory import ControllerFactory
+from ..controllers.controller import ControllerFactory
 
 size = Blueprint('size', __name__)
 controller = ControllerFactory.get_controller('size')
