@@ -5,17 +5,16 @@ from .size import SizeController
 from .ingredient import IngredientController
 from .order import OrderController
 
+
 @dataclass
 class ControllerFactory:
- 
     @staticmethod
-    def get_controller(controller:str):
-        if controller == 'size':
+    def get_controller(controller: str):
+        if controller == "size":
             return SizeController
-        if controller == 'beverage':
+        if controller == "beverage":
             return BeverageController
-        if controller == 'ingredient':
+        if controller == "ingredient":
             return IngredientController
-        if controller == 'order':
+        if controller == "order":
             return OrderController
-        

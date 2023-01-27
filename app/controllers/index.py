@@ -5,11 +5,10 @@ from ..repositories.managers import IndexManager
 
 
 class IndexController:
-
     @staticmethod
     def test_connection() -> Tuple[bool, str]:
         try:
             IndexManager.test_connection()
-            return True, ''
+            return True, ""
         except (SQLAlchemyError, RuntimeError) as ex:
             return False, str(ex)

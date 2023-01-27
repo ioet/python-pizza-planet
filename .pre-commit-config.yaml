@@ -1,0 +1,38 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v3.2.0
+    hooks:
+      - id: check-ast
+      - id: check-byte-order-marker
+      - id: check-case-conflict
+      - id: check-merge-conflict
+      - id: check-docstring-first
+      - id: check-executables-have-shebangs
+      - id: check-json
+      - id: check-yaml
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: mixed-line-ending
+
+  - repo: local
+    hooks:
+      - id: semantic-commit-msg
+        name: Check semantic commit message format
+        entry: python ./commons/git_hooks/enforce_semantic_commit_msg.py
+        language: python
+        stages: [commit-msg]
+
+  - repo: local
+    hooks:
+      - id: flake8
+        name: flake8
+        entry: flake8
+        language: system
+        types: [python]
+        stages: [commit]
+
+  -   repo: https://github.com/psf/black
+      rev: 22.3.0
+      hooks:
+      -   id: black
+          exclude: ^dist/

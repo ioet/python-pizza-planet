@@ -1,4 +1,3 @@
-
-GET = ['GET']
-POST = ['POST']
-PUT = ['PUT']
+GET = ["GET"]
+POST = ["POST"]
+PUT = ["PUT"]

@@ -11,20 +11,25 @@ def create_app(config_class: str):
 
 def register_blueprints(flask_app):
     from app import services
-    blueprints = inspect.getmembers(services, lambda member: isinstance(member, Blueprint))
+
+    blueprints = inspect.getmembers(
+        services, lambda member: isinstance(member, Blueprint)
+    )
     for name, blueprint in blueprints:
-        prefix = '/' if name == 'index' else f'/{name.replace("_", "-")}'
+        prefix = "/" if name == "index" else f'/{name.replace("_", "-")}'
         flask_app.register_blueprint(blueprint, url_prefix=prefix)
 
 
 def register_plugins(flask_app):
     from .plugins import db, ma
+
     db.init_app(flask_app)
     ma.init_app(flask_app)
 
 
 def cors_app(flask_app):
     from flask_cors import CORS
+
     CORS(flask_app)
 
 
@@ -37,4 +42,4 @@ def configure_app(config_class):
     return flask_app
 
 
-flask_app = configure_app('app.settings.Config')
+flask_app = configure_app("app.settings.Config")
