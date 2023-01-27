@@ -36,3 +36,4 @@ zipp==3.7.0
 coverage==4.5.1
 pre-commit==2.20.0
 black
+Faker==15.3.1
