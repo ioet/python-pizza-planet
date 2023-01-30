@@ -1,5 +1,7 @@
 from dataclasses import dataclass
 
+from app.controllers.report import ReportController
+
 from .beverage import BeverageController
 from .size import SizeController
 from .ingredient import IngredientController

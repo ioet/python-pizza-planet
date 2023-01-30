@@ -1,3 +1,5 @@
+from ast import Tuple
+from collections import Counter
 from typing import Any, List, Optional, Sequence
 
 from sqlalchemy.sql import text, column
@@ -19,6 +21,7 @@ from .serializers import (
     ma,
 )
 
+from sqlalchemy import func, desc
 
 class BaseManager:
     model: Optional[db.Model] = None
@@ -123,3 +126,89 @@ class IndexManager(BaseManager):
     @classmethod
     def test_connection(cls):
         cls.session.query(column("1")).from_statement(text("SELECT 1")).all()
+
+class ReportManager(BaseManager):
+    order_model = Order
+    ingredient_model = OrderDetail
+    session = db.session
+
+    @classmethod
+    def get_most_requested_ingredient(cls) -> dict:
+        ingredients = cls.session.query(
+            cls.ingredient_model).all()
+        ingredients_ids = [ingredient.ingredient_id
+                               for ingredient
+                               in ingredients]
+                               
+        ingredients_with_times = Counter(ingredients_ids)
+        ingredient_id = 0
+        for id, times in ingredients_with_times.most_common(1):
+            ingredient_id = id
+            ingredient_count = times
+
+        most_requested_ingredient = Ingredient.query.get(ingredient_id)
+        if most_requested_ingredient:
+            return {
+                'name': most_requested_ingredient.name,
+                'times': ingredient_count
+            }
+
+    @classmethod
+    def get_month_with_more_revenue(cls) -> dict:
+        orders = cls.session.query(cls.order_model).all()
+
+        dates_price_of_orders = [(order.date.month, order.total_price)
+                     for order in orders]
+
+        new_month_revenue = cls.update_values(dates_price_of_orders)
+
+        max_price_in_month= 0
+        month_name = ""
+        for month, price in new_month_revenue.items():
+            if price > max_price_in_month :
+                max_price_in_month = price
+                month_name = month
+
+        if dates_price_of_orders:
+            return {
+                'month': month_name,
+                'revenue': round(max_price_in_month, 2)
+            }
+
+    @classmethod
+    def get_best_customers(cls) -> list:
+        orders = cls.session.query(cls.order_model).all()
+        clients_with_price = [(client.client_dni, client.total_price) for client in orders]
+
+        new_clients = cls.update_values(clients_with_price)
+        
+        clients_count= Counter(new_clients)
+        best_customers = clients_count.most_common(3) 
+        if best_customers:
+            return [
+                {
+                    'dni': dni,
+                    'name': cls.get_client_name(dni, orders),
+                    'total_purchase': total_purchase
+                } for dni, total_purchase in best_customers
+            ]
+
+    @staticmethod
+    def update_values(list_tuples) -> dict:        
+        dictionary = {} 
+        for key, value in list_tuples:
+            dictionary.update({key: value}) 
+
+        new_dictionary = {} 
+        for key, value in list_tuples: 
+            new_dictionary.update(
+                {key: value + dictionary.get(key)})
+
+        return new_dictionary 
+
+    @staticmethod
+    def get_client_name(dni: str, orders: list) -> str:
+        for order in orders:
+            if order.client_dni == dni:
+                return order.client_name
+
