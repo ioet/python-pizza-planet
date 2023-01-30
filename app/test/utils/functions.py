@@ -1,6 +1,9 @@
 import random
 import string
 from typing import Any, Union
+from app.models.client import Client
+from app.models.order import Order
+from app.models.product import Product
 
 
 def get_random_string() -> str:
@@ -35,3 +38,12 @@ def get_random_sequence(length: int = 10) -> str:
 
 def get_random_phone() -> str:
     return get_random_sequence(10)
+
+def get_random_client() -> Client:
+    return Client('Albert Tester', '1102699926', 'Test Address', '2589502')
+
+def get_random_product() -> Product:
+    return Product('Pizza', {'size_id': 1, 'ingredient': [1,2,3,4,5]})
+
+def get_random_order() -> Order:
+    return Order(get_random_client(), [get_random_product()], 4)
