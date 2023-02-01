@@ -2,8 +2,9 @@ import pytest
 from app.controllers import (IngredientController, OrderController,
                              SizeController)
 from app.controllers.base import BaseController
+from app.controllers.beverage import BeverageController
 from app.test.utils.functions import get_random_choice, shuffle_list
-
+from app.test.fixtures.beverage import beverage, beverages
 
 def __order(ingredients: list, size: dict, client_data: dict):
     ingredients = [ingredient.get('_id') for ingredient in ingredients]
@@ -13,7 +14,6 @@ def __order(ingredients: list, size: dict, client_data: dict):
         'ingredients': ingredients,
         'size_id': size_id
     }
-
 
 def __create_items(items: list, controller: BaseController):
     created_items = []
@@ -44,7 +44,6 @@ def test_create(app, ingredients, size, client_data):
 
         ingredients_in_detail = set(item['ingredient']['_id'] for item in created_order['detail'])
         pytest.assume(not ingredients_in_detail.difference(ingredient_ids))
-
 
 def test_calculate_order_price(app, ingredients, size, client_data):
     created_size, created_ingredients = __create_sizes_and_ingredients(ingredients, [size])
