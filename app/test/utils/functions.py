@@ -1,12 +1,19 @@
 import random
 import string
 from typing import Any, Union
+from faker import Faker
+
+faker = Faker()
 
 
 def get_random_string() -> str:
     letters = list(string.ascii_lowercase)
     random.shuffle(letters)
     return ''.join(letters[:10])
+
+
+def create_random_date():
+    return faker.date_between(start_date='-2y', end_date='today')
 
 
 def get_random_choice(choices: Union[tuple, list]) -> Any:
