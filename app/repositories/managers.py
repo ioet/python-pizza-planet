@@ -1,9 +1,8 @@
 from typing import Any, List, Optional, Sequence
-
 from sqlalchemy.sql import text, column
 
-from .models import Ingredient, Order, OrderDetail, Size, db
-from .serializers import (IngredientSerializer, OrderSerializer,
+from .models import Ingredient, Order, Beverage, OrderDetail, Size, db
+from .serializers import (IngredientSerializer, BeverageSerializer, OrderSerializer,
                           SizeSerializer, ma)
 
 
@@ -44,9 +43,9 @@ class SizeManager(BaseManager):
     serializer = SizeSerializer
 
 
-class IngredientManager(BaseManager):
-    model = Ingredient
-    serializer = IngredientSerializer
+class BeverageManager(BaseManager):
+    model = Beverage
+    serializer = BeverageSerializer
 
     @classmethod
     def get_by_id_list(cls, ids: Sequence):
@@ -78,3 +77,11 @@ class IndexManager(BaseManager):
     @classmethod
     def test_connection(cls):
         cls.session.query(column('1')).from_statement(text('SELECT 1')).all()
+
+class IngredientManager(BaseManager):
+    model = Ingredient
+    serializer = IngredientSerializer
+
+    @classmethod
+    def get_by_id_list(cls, ids: Sequence):
+        return cls.session.query(cls.model).filter(cls.model._id.in_(set(ids))).all() or []
