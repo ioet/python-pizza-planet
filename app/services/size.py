@@ -29,6 +29,7 @@ def get_size_by_id(_id: int):
     status_code = 200 if size else 404 if not error else 400
     return jsonify(response), status_code
 
+
 @size.route('/', methods=GET)
 def get_size():
     size, error = SizeController.get_all()
