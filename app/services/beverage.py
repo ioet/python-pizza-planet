@@ -1,7 +1,7 @@
 from app.common.http_methods import GET, POST, PUT
 from flask import Blueprint, request
 from ..controllers import BeverageController
-from app.services.utils.handle import handle_response
+from app.common.utils import handle_response
 
 beverage = Blueprint('beverage', __name__)
 
