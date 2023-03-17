@@ -15,7 +15,7 @@ class BeverageSerializer(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Beverage
         load_instance = True
-        fields = ('_id', 'name', 'price', 'quantity')
+        fields = ('_id', 'name', 'price')
 
 
 class SizeSerializer(ma.SQLAlchemyAutoSchema):

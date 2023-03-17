@@ -49,8 +49,11 @@ class BeverageManager(BaseManager):
 
     @classmethod
     def get_by_id_list(cls, ids: Sequence):
-        return cls.session.query(cls.model).filter(cls.model._id.in_(set(ids))).all() or []
-
+        unique_ids = set(ids)
+        query = cls.session.query(cls.model)
+        filtered_query = query.filter(cls.model._id.in_(unique_ids))
+        results = filtered_query.all() or []
+        return results
 
 class OrderManager(BaseManager):
     model = Order
@@ -63,7 +66,7 @@ class OrderManager(BaseManager):
         cls.session.flush()
         cls.session.refresh(new_order)
         cls.session.add_all((IngredientDetail(order_id=new_order._id, ingredient_id=ingredient._id, ingredient_price=ingredient.price) for ingredient in ingredients))
-        cls.session.add_all((BeveragesDetail(order_id=new_order._id, beverage_id=beverage._id, beverage_price=beverage.price) for beverage in beverages))
+        cls.session.add_all((BeveragesDetail(order_id=new_order._id, beverage_id=beverage["_id"], beverage_price=beverage["price"], beverage_quantity=beverage["quantity"]) for beverage in beverages))
         cls.session.commit()
         return cls.serializer().dump(new_order)
 
@@ -84,4 +87,8 @@ class IngredientManager(BaseManager):
 
     @classmethod
     def get_by_id_list(cls, ids: Sequence):
-        return cls.session.query(cls.model).filter(cls.model._id.in_(set(ids))).all() or []
+        unique_ids = set(ids)
+        query = cls.session.query(cls.model)
+        filtered_query = query.filter(cls.model._id.in_(unique_ids))
+        results = filtered_query.all() or []
+        return results
