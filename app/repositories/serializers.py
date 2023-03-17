@@ -6,81 +6,62 @@ from .models import (Ingredient,
                      BeveragesDetail,
                      Beverage)
 
+class SerializerFactory:
+    def __init__(self, model, load_instance=True, fields=None):
+        self.model = model
+        self.load_instance = load_instance
+        self.fields = fields
 
-class IngredientSerializer(ma.SQLAlchemyAutoSchema):
+    def create(self, class_name, nested_serializers=None):
+        class Meta:
+            model=self.model
+            load_instance=self.load_instance
+            fields=self.fields
 
-    class Meta:
-        model = Ingredient
-        load_instance = True
-        fields = ('_id',
-                  'name',
-                  'price')
+        class_attrs = {'Meta': Meta}
 
+        if nested_serializers:
+            for field_name, (serializer, many) in nested_serializers.items():
+                class_attrs[field_name] = ma.Nested(serializer, many=many)
 
-class BeverageSerializer(ma.SQLAlchemyAutoSchema):
+        serializer_class = type(class_name, (ma.SQLAlchemyAutoSchema, ), class_attrs)
+        
+        return serializer_class              
 
-    class Meta:
-        model = Beverage
-        load_instance = True
-        fields = ('_id',
-                  'name',
-                  'price'
-                  )
+IngredientSerializer = SerializerFactory(
+    Ingredient, 
+    fields=('_id', 'name', 'price')).create('IngredientSerializer')
 
+BeverageSerializer = SerializerFactory(
+    Beverage, 
+    fields=('_id', 'name', 'price')).create('BeverageSerializer')
 
-class SizeSerializer(ma.SQLAlchemyAutoSchema):
+SizeSerializer = SerializerFactory(
+    Size, 
+    fields=('_id', 'name', 'price')).create('SizeSerializer')
 
-    class Meta:
-        model = Size
-        load_instance = True
-        fields = ('_id',
-                  'name',
-                  'price'
-                  )
+OrderIngredientsSerializer = SerializerFactory(
+    IngredientDetail, 
+    fields=('ingredient', )).create('OrderIngredientsSerializer',
+                                   nested_serializers={'ingredient': (IngredientSerializer, False)})
 
+OrderBeveragesSerializer = SerializerFactory(
+    BeveragesDetail, 
+    fields=('beverage', 'beverage_quantity')).create('OrderBeveragesSerializer',
+                                                    nested_serializers={'beverage': (BeverageSerializer, False)})
 
-class OrderIngredientsSerializer(ma.SQLAlchemyAutoSchema):
-
-    ingredient = ma.Nested(IngredientSerializer)
-
-    class Meta:
-        model = IngredientDetail
-        load_instance = True
-        fields = (
-            'ingredient',
-        )
-
-
-class OrderBeveragesSerializer(ma.SQLAlchemyAutoSchema):
-
-    beverage = ma.Nested(BeverageSerializer)
-
-    class Meta:
-        model = BeveragesDetail
-        load_instance = True
-        fields = (
-            'beverage',
-            'beverage_quantity',
-        )
-
-
-class OrderSerializer(ma.SQLAlchemyAutoSchema):
-    size = ma.Nested(SizeSerializer)
-    ingredientsDetail = ma.Nested(OrderIngredientsSerializer, many=True)
-    beveragesDetail = ma.Nested(OrderBeveragesSerializer, many=True)
-
-    class Meta:
-        model = Order
-        load_instance = True
-        fields = (
-            '_id',
-            'client_name',
-            'client_dni',
-            'client_address',
-            'client_phone',
-            'date',
-            'total_price',
-            'size',
-            'ingredientsDetail',
-            'beveragesDetail'
-        )
+OrderSerializer = SerializerFactory(
+    Order, 
+    fields=('_id', 
+            'client_name', 
+            'client_dni', 
+            'client_address', 
+            'client_phone', 
+            'date', 
+            'total_price', 
+            'size', 
+            'ingredientsDetail', 
+            'beveragesDetail')).create('OrderSerializer', 
+                                       nested_serializers={'size': (SizeSerializer, False), 
+                                                           'ingredientsDetail': (OrderIngredientsSerializer, True),
+                                                           'beveragesDetail': (OrderBeveragesSerializer, True)})
