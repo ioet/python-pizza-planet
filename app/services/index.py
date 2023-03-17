@@ -1,3 +1,4 @@
+from app.common.utils import handle_response
 from app.common.http_methods import GET
 from flask import Blueprint, jsonify
 
