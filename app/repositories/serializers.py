@@ -7,7 +7,9 @@ class IngredientSerializer(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Ingredient
         load_instance = True
-        fields = ('_id', 'name', 'price')
+        fields = ('_id', 
+                  'name', 
+                  'price')
 
 
 class BeverageSerializer(ma.SQLAlchemyAutoSchema):
@@ -15,7 +17,10 @@ class BeverageSerializer(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Beverage
         load_instance = True
-        fields = ('_id', 'name', 'price')
+        fields = ('_id',
+                  'name',
+                  'price'
+                )
 
 
 class SizeSerializer(ma.SQLAlchemyAutoSchema):
@@ -23,7 +28,10 @@ class SizeSerializer(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Size
         load_instance = True
-        fields = ('_id', 'name', 'price')
+        fields = ('_id', 
+                  'name', 
+                  'price'
+                )
 
 
 class OrderIngredientsSerializer(ma.SQLAlchemyAutoSchema):
@@ -34,28 +42,30 @@ class OrderIngredientsSerializer(ma.SQLAlchemyAutoSchema):
         model = IngredientDetail
         load_instance = True
         fields = (
+            'ingredient',
             'ingredient_price',
-            'ingredient'
+            'ingredient_id',
         )
 
 class OrderBeveragesSerializer(ma.SQLAlchemyAutoSchema):
 
-    ingredient = ma.Nested(IngredientSerializer)
+    beverage = ma.Nested(BeverageSerializer)
 
     class Meta:
         model = BeveragesDetail
         load_instance = True
         fields = (
+            'beverage',
             'beverage_price',
+            'beverage_id',
             'beverage_quantity',
-            'beverage'
         )
 
 
 class OrderSerializer(ma.SQLAlchemyAutoSchema):
     size = ma.Nested(SizeSerializer)
-    ingredientsDetails = ma.Nested(OrderIngredientsSerializer, many=True)
-    beveragesDetails = ma.Nested(OrderBeveragesSerializer, many=True)
+    ingredientsDetail = ma.Nested(OrderIngredientsSerializer, many=True)
+    beveragesDetail = ma.Nested(OrderBeveragesSerializer, many=True)
 
     class Meta:
         model = Order
@@ -69,6 +79,6 @@ class OrderSerializer(ma.SQLAlchemyAutoSchema):
             'date',
             'total_price',
             'size',
-            'ingredientsDetails',
-            'beveragesDetails'
+            'ingredientsDetail',
+            'beveragesDetail'
         )
