@@ -1,9 +1,19 @@
 from typing import Any, List, Optional, Sequence
 from sqlalchemy.sql import text, column
 
-from .models import Ingredient, Order, Beverage, BeveragesDetail, IngredientDetail, Size, db
-from .serializers import (IngredientSerializer, BeverageSerializer, OrderSerializer,
-                          SizeSerializer, ma)
+from .models import (Ingredient,
+                     Order,
+                     Beverage,
+                     BeveragesDetail,
+                     IngredientDetail,
+                     Size,
+                     db)
+from .serializers import (
+    IngredientSerializer,
+    BeverageSerializer,
+    OrderSerializer,
+    SizeSerializer,
+    ma)
 
 
 class BaseManager:
@@ -55,18 +65,34 @@ class BeverageManager(BaseManager):
         results = filtered_query.all() or []
         return results
 
+
 class OrderManager(BaseManager):
     model = Order
     serializer = OrderSerializer
 
     @classmethod
-    def create(cls, order_data: dict, ingredients: List[Ingredient], beverages: List[Beverage]):
+    def create(
+            cls,
+            order_data: dict,
+            ingredients: List[Ingredient],
+            beverages: List[Beverage]):
         new_order = cls.model(**order_data)
         cls.session.add(new_order)
         cls.session.flush()
         cls.session.refresh(new_order)
-        cls.session.add_all((IngredientDetail(order_id=new_order._id, ingredient_id=ingredient._id, ingredient_price=ingredient.price) for ingredient in ingredients))
-        cls.session.add_all((BeveragesDetail(order_id=new_order._id, beverage_id=beverage["_id"], beverage_price=beverage["price"], beverage_quantity=beverage["quantity"]) for beverage in beverages))
+        cls.session.add_all(
+            (IngredientDetail(
+                order_id=new_order._id,
+                ingredient_id=ingredient._id,
+                ingredient_price=ingredient.price)
+                for ingredient in ingredients))
+        cls.session.add_all(
+            (BeveragesDetail(
+                order_id=new_order._id,
+                beverage_id=beverage["_id"],
+                beverage_price=beverage["price"],
+                beverage_quantity=beverage["quantity"])
+                for beverage in beverages))
         cls.session.commit()
         return cls.serializer().dump(new_order)
 
@@ -80,6 +106,7 @@ class IndexManager(BaseManager):
     @classmethod
     def test_connection(cls):
         cls.session.query(column('1')).from_statement(text('SELECT 1')).all()
+
 
 class IngredientManager(BaseManager):
     model = Ingredient
