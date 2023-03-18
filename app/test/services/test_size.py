@@ -43,4 +43,3 @@ def test_get_sizes_service(client, create_sizes, size_uri):
         size['_id']: size for size in response.json}
     for size in create_sizes:
         pytest.assume(size['_id'] in returned_sizes)
-    pytest.assume(size['_id'] in returned_sizes)
