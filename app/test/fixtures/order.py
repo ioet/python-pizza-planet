@@ -25,7 +25,7 @@ def client_data():
 
 @pytest.fixture
 def create_order(create_ingredients, create_size, client_data) -> dict:
-    
+
     ingredients = [ingredient.get('_id') for ingredient in create_ingredients]
     create_size_json = create_size.json
     size_id = create_size_json.get('_id')
