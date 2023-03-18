@@ -75,7 +75,11 @@ class OrderManager(BaseManager):
             cls,
             order_data: dict,
             ingredients: List[Ingredient],
-            beverages: List[Beverage]):
+            beverages: List[Beverage],
+            session=None):
+        if not session:
+            session = cls.session
+            
         new_order = cls.model(**order_data)
         cls.session.add(new_order)
         cls.session.flush()

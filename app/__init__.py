@@ -38,5 +38,4 @@ def configure_app(config_class):
 
     return flask_app
 
-
 flask_app = configure_app('app.settings.Config')
