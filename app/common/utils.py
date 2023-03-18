@@ -1,7 +1,9 @@
 from flask import jsonify
 
+
 def check_required_keys(keys: tuple, element: dict):
     return all(element.get(key) for key in keys)
+
 
 def handle_response(service_response, error):
     SUCCESS_CODE = 200
