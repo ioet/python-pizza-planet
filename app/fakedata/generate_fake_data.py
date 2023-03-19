@@ -3,7 +3,7 @@ from faker import Faker
 from app.plugins import db
 from app.repositories.models import Ingredient, Beverage, Size
 from app.repositories.managers import OrderManager
-fake = Faker()
+fake = Faker('es_AR')
 
 def generate_fake_sizes():
     sizes = [
@@ -61,6 +61,12 @@ def generate_fake_orders(num_orders=100, db_session=None):
     sizes = Size.query.all()
     ingredients = Ingredient.query.all()
     beverages = Beverage.query.all()
+    client_list = []
+    
+    def get_random_client_from_list():
+        for _ in range(2):
+            client_list.append(fake.name())
+        return random.choice(client_list)
 
     for _ in range(num_orders):
         size = random.choice(sizes)
@@ -75,10 +81,10 @@ def generate_fake_orders(num_orders=100, db_session=None):
         ]
 
         total_price = size.price + sum([i.price for i in ingredients_selected]) + sum([b['price'] * b['quantity'] for b in beverages_selected])
-
+        
         order_data = {
-            'client_name': fake.name(),
-            'client_dni': fake.unique.random_number(digits=10, fix_len=True),
+            'client_name': get_random_client_from_list(),
+            'client_dni': fake.unique.random_number(digits=8, fix_len=True),
             'client_address': fake.address(),
             'client_phone': fake.phone_number(),
             'date': fake.date_time_between(start_date='-1y', end_date='now'),
