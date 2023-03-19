@@ -40,7 +40,7 @@ python3 -m venv venv
 _For linux/MacOS users:_
 
 ```bash
-source venv/bin/activate 
+source venv/bin/activate
 ```
 
 _For windows users:_
@@ -68,7 +68,7 @@ python3 manage.py db upgrade
 _For linux/MacOS users:_
 
 ```bash
-export FLASK_ENV=development 
+export FLASK_ENV=development
 ```
 
 _For windows users:_
@@ -124,3 +124,5 @@ pytest --cov=app app/test/
 ```
 
 ## Diagram for future deployment in AWS
+
+![deploy_diagram](./app/assets/deploy_diagram.jpg)
