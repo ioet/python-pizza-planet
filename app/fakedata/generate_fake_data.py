@@ -10,6 +10,9 @@ def generate_fake_sizes():
         {'name': 'S', 'price': 5.0},
         {'name': 'M', 'price': 7.0},
         {'name': 'L', 'price': 10.0},
+        {'name': 'XL', 'price': 12.0},
+        {'name': 'XXL', 'price': 15.0},
+
     ]
     for size in sizes:
         size_name = size['name']
@@ -27,6 +30,9 @@ def generate_fake_ingredients():
         {'name': 'Ham', 'price': 2.0},
         {'name': 'Bacon', 'price': 2.0},
         {'name': 'Pineapple', 'price': 2.0},
+        {'name': 'Onion', 'price': 1.0},
+        {'name': 'Tomato', 'price': 1.0},
+        {'name': 'Olives', 'price': 1.0},
     ]
     for ingredient in ingredients:
         ingredient_name = ingredient['name']
@@ -64,23 +70,23 @@ def generate_fake_orders(num_orders=100, db_session=None):
 
         beverage_quantity = random.randint(1, 5)
         beverages_types_amount = random.randint(1, len(beverages))
-        selected_beverages = [
+        beverages_selected = [
             {'_id': b._id, 'price': b.price, 'quantity': beverage_quantity} for b in (random.sample(beverages, beverages_types_amount))
         ]
 
-        total_price = size.price + sum([i.price for i in ingredients_selected]) + sum([b['price'] * b['quantity'] for b in selected_beverages])
+        total_price = size.price + sum([i.price for i in ingredients_selected]) + sum([b['price'] * b['quantity'] for b in beverages_selected])
 
         order_data = {
             'client_name': fake.name(),
             'client_dni': fake.unique.random_number(digits=10, fix_len=True),
             'client_address': fake.address(),
             'client_phone': fake.phone_number(),
-            'date': fake.date_time_this_year(),
+            'date': fake.date_time_between(start_date='-1y', end_date='now'),
             'total_price': total_price, 
             'size_id': size._id,
         }
 
-        OrderManager.create(order_data, ingredients_selected, selected_beverages)
+        OrderManager.create(order_data, ingredients_selected, beverages_selected)
 
 def main():
     db.create_all()
@@ -88,6 +94,3 @@ def main():
     generate_fake_ingredients()
     generate_fake_beverages()
     generate_fake_orders()
-
-if __name__ == '__main__':
-    main()
