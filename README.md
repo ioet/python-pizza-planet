@@ -40,7 +40,7 @@ python3 -m venv venv
 _For linux/MacOS users:_
 
 ```bash
-source venv/bin/activate 
+source venv/bin/activate
 ```
 
 _For windows users:_
@@ -68,7 +68,7 @@ python3 manage.py db upgrade
 _For linux/MacOS users:_
 
 ```bash
-export FLASK_ENV=development 
+export FLASK_ENV=development
 ```
 
 _For windows users:_
@@ -112,3 +112,17 @@ ext install ritwickdey.LiveServer
 ```bash
 python3 manage.py test
 ```
+
+### Testing the backend coverage
+
+- Make sure that you have `pytest-cov` installed
+
+- Run the test command in the root directory
+
+```bash
+pytest --cov=app app/test/
+```
+
+## Diagram for future deployment in AWS
+
+![deploy_diagram](./app/assets/deploy_diagram.jpg)
