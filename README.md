@@ -112,3 +112,15 @@ ext install ritwickdey.LiveServer
 ```bash
 python3 manage.py test
 ```
+
+### Testing the backend coverage
+
+- Make sure that you have `pytest-cov` installed
+
+- Run the test command in the root directory
+
+```bash
+pytest --cov=app app/test/
+```
+
+## Diagram for future deployment in AWS
