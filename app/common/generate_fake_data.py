@@ -7,6 +7,7 @@ fake = Faker('es_AR')
 
 
 def generate_fake_sizes():
+    """Generates 5 fake sizes for the database"""
     sizes = [
         {'name': 'S', 'price': 5.0},
         {'name': 'M', 'price': 7.0},
@@ -22,8 +23,8 @@ def generate_fake_sizes():
         db.session.add(size_entry)
     db.session.commit()
 
-
 def generate_fake_ingredients():
+    """Generates 10 fake ingredients for the database"""
     ingredients = [
         {'name': 'Cheese', 'price': 3.0},
         {'name': 'Reggianito', 'price': 5.0},
@@ -44,8 +45,8 @@ def generate_fake_ingredients():
         db.session.add(ingredient_entry)
     db.session.commit()
 
-
 def generate_fake_beverages():
+    """Generates 5 fake beverages for the database"""
     beverages = [
         {'name': 'Coke', 'price': 2.0},
         {'name': 'Sprite', 'price': 2.0},
@@ -58,8 +59,16 @@ def generate_fake_beverages():
         db.session.add(beverage_entry)
     db.session.commit()
 
+def generate_clients(num_clients=30):
+    """Generate a list of client names. By default 30 clients"""
+    return [fake.name() for _ in range(num_clients)]
+
+def get_random_client_from_list():
+    """Returns a random client name from the list of clients"""
+    return random.choice(generate_clients())
 
 def generate_fake_orders(num_orders=100, db_session=None):
+    """Generates fake orders for the database"""
     if not db_session:
         db_session = db.session
 
@@ -67,32 +76,23 @@ def generate_fake_orders(num_orders=100, db_session=None):
     ingredients = Ingredient.query.all()
     beverages = Beverage.query.all()
 
-    client_list = []
-    for _ in range(30):
-        client_list.append(fake.name())
-
-    def get_random_client_from_list():
-        return random.choice(client_list)
-
     for _ in range(num_orders):
         size = random.choice(sizes)
 
-        ingredients_quantity = random.randint(1, len(ingredients))
-        ingredients_selected = random.sample(ingredients, ingredients_quantity)
+        ingredients_selected_amount = random.randint(1, len(ingredients))
+        ingredients_selected = random.sample(ingredients, ingredients_selected_amount)
 
-        beverage_quantity = random.randint(1, 5)
-        beverages_types_amount = random.randint(1, len(beverages))
+        beverages_quantity_per_beverage = random.randint(1, 5)
+        beverages_selected_amount = random.randint(1, len(beverages))
         beverages_selected = [
             {
-                '_id': b._id,
-                'price': b.price,
-                'quantity': beverage_quantity} for b in (
-                random.sample(
-                    beverages,
-                    beverages_types_amount))]
+                '_id': beverage._id,
+                'price': beverage.price,
+                'quantity': beverages_quantity_per_beverage} for beverage in (
+                random.sample(beverages, beverages_selected_amount))]
 
-        total_price = size.price + sum([i.price for i in ingredients_selected]) + sum(
-            [b['price'] * b['quantity'] for b in beverages_selected])
+        total_price = size.price + sum([ingredient.price for ingredient in ingredients_selected]) + sum(
+            [beverage['price'] * beverage['quantity'] for beverage in beverages_selected])
 
         order_data = {
             'client_name': get_random_client_from_list(),
@@ -109,14 +109,12 @@ def generate_fake_orders(num_orders=100, db_session=None):
             ingredients_selected,
             beverages_selected)
 
-
 def main():
     db.create_all()
     generate_fake_sizes()
     generate_fake_ingredients()
     generate_fake_beverages()
     generate_fake_orders()
-
 
 if __name__ == '__main__':
     main()

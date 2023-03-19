@@ -24,16 +24,16 @@ class OrderController(BaseController):
             ingredients: list,
             beverages: list,
             beverage_quantity: list):
-        ingredientPrice = sum(ingredient.price for ingredient in ingredients)
-        beveragesPrice = sum(
+        ingredients_price = sum(ingredient.price for ingredient in ingredients)
+        beverages_price = sum(
             beverage.price *
             int(quantity) for beverage,
             quantity in zip(
                 beverages,
                 beverage_quantity))
 
-        totalPrice = size_price + ingredientPrice + beveragesPrice
-        return round(totalPrice, 2)
+        total_price = size_price + ingredients_price + beverages_price
+        return round(total_price, 2)
 
     @classmethod
     def create(cls, order: dict):

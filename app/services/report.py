@@ -3,20 +3,19 @@ from flask import Blueprint
 from operator import itemgetter
 from app.common.utils import handle_response
 from ..controllers import OrderController
+from collections import defaultdict
 
 report = Blueprint('report', __name__)
 
 
 def get_most_repeated_ingredient(orders_list):
-    ingredient_count = {}
+    """Returns the most repeated ingredient in all orders"""
+    ingredient_count = defaultdict(int)
 
     for order in orders_list:
         for ingredients in order['ingredientsDetail']:
             ingredient_name = ingredients['ingredient']['name']
-            if ingredient_name in ingredient_count:
-                ingredient_count[ingredient_name] += 1
-            else:
-                ingredient_count[ingredient_name] = 1
+            ingredient_count[ingredient_name] += 1
 
     most_repeated_ingredient = None
     max_count = 0
@@ -30,15 +29,13 @@ def get_most_repeated_ingredient(orders_list):
 
 
 def get_month_with_more_revenue(orders_list):
-    month_revenue = {}
+    """Returns the month with more revenue"""
+    month_revenue = defaultdict(int)
 
     for order in orders_list:
         month = order["date"].split('-')[1]
         orden_price = order["total_price"]
-        if month in month_revenue:
-            month_revenue[month] += orden_price
-        else:
-            month_revenue[month] = orden_price
+        month_revenue[month] += orden_price
 
     month_with_more_revenue = None
     max_revenue = 0
@@ -52,15 +49,13 @@ def get_month_with_more_revenue(orders_list):
 
 
 def get_top_three_customers(orders_list):
-    customer_spent = {}
+    """Returns the top three customers of all orders"""
+    customer_spent = defaultdict(int)
 
     for order in orders_list:
         client_name = order["client_name"]
         order_price = order["total_price"]
-        if client_name in customer_spent:
-            customer_spent[client_name] += order_price
-        else:
-            customer_spent[client_name] = order_price
+        customer_spent[client_name] += order_price
 
     sorted_customer_spent = sorted(
         customer_spent.items(),

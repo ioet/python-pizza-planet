@@ -4,3 +4,4 @@ from .size import size
 from .index import index
 from .beverage import beverage
 from .report import report
+from .populate import populate
