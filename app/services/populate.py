@@ -1,4 +1,4 @@
-from app.fakedata.generate_fake_data import main
+from app.common.generate_fake_data import main
 from flask import Blueprint
 
 populate = Blueprint('report', __name__)
