@@ -1,8 +1,7 @@
 import random
-from datetime import timedelta
 from faker import Faker
 from app.plugins import db
-from app.repositories.models import Order, IngredientDetail, BeveragesDetail, Ingredient, Beverage, Size
+from app.repositories.models import Ingredient, Beverage, Size
 from app.repositories.managers import OrderManager
 fake = Faker()
 
@@ -13,7 +12,9 @@ def generate_fake_sizes():
         {'name': 'L', 'price': 10.0},
     ]
     for size in sizes:
-        size_entry = Size(**size)
+        size_name = size['name']
+        size_price = size['price']
+        size_entry = Size(name=size_name, price=size_price)
         db.session.add(size_entry)
     db.session.commit()
 
@@ -28,7 +29,9 @@ def generate_fake_ingredients():
         {'name': 'Pineapple', 'price': 2.0},
     ]
     for ingredient in ingredients:
-        ingredient_entry = Ingredient(**ingredient)
+        ingredient_name = ingredient['name']
+        ingredient_price = ingredient['price']
+        ingredient_entry = Ingredient(name=ingredient_name, price=ingredient_price)
         db.session.add(ingredient_entry)
     db.session.commit()
 
@@ -55,10 +58,17 @@ def generate_fake_orders(num_orders=100, db_session=None):
 
     for _ in range(num_orders):
         size = random.choice(sizes)
-        selected_ingredients = random.sample(ingredients, random.randint(1, len(ingredients)))
-        selected_beverages = [{'_id': b._id, 'price': b.price, 'quantity': random.randint(1, 5)} for b in random.sample(beverages, random.randint(1, len(beverages)))]
+        
+        ingredients_quantity = random.randint(1, len(ingredients))
+        ingredients_selected = random.sample(ingredients, ingredients_quantity)
 
-        total_price = size.price + sum([i.price for i in selected_ingredients]) + sum([b['price'] * b['quantity'] for b in selected_beverages])
+        beverage_quantity = random.randint(1, 5)
+        beverages_types_amount = random.randint(1, len(beverages))
+        selected_beverages = [
+            {'_id': b._id, 'price': b.price, 'quantity': beverage_quantity} for b in (random.sample(beverages, beverages_types_amount))
+        ]
+
+        total_price = size.price + sum([i.price for i in ingredients_selected]) + sum([b['price'] * b['quantity'] for b in selected_beverages])
 
         order_data = {
             'client_name': fake.name(),
@@ -70,7 +80,7 @@ def generate_fake_orders(num_orders=100, db_session=None):
             'size_id': size._id,
         }
 
-        OrderManager.create(order_data, selected_ingredients, selected_beverages)
+        OrderManager.create(order_data, ingredients_selected, selected_beverages)
 
 def main():
     db.create_all()
