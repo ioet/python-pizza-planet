@@ -79,7 +79,7 @@ class OrderManager(BaseManager):
             session=None):
         if not session:
             session = cls.session
-            
+
         new_order = cls.model(**order_data)
         cls.session.add(new_order)
         cls.session.flush()

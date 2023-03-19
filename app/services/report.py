@@ -5,7 +5,8 @@ from app.common.utils import handle_response
 from ..controllers import OrderController
 
 report = Blueprint('report', __name__)
-    
+
+
 def get_most_repeated_ingredient(orders_list):
     ingredient_count = {}
 
@@ -26,6 +27,7 @@ def get_most_repeated_ingredient(orders_list):
             most_repeated_ingredient = ingredient_name
 
     return most_repeated_ingredient
+
 
 def get_month_with_more_revenue(orders_list):
     month_revenue = {}
@@ -48,6 +50,7 @@ def get_month_with_more_revenue(orders_list):
 
     return (month_with_more_revenue)
 
+
 def get_top_three_customers(orders_list):
     customer_spent = {}
 
@@ -59,13 +62,16 @@ def get_top_three_customers(orders_list):
         else:
             customer_spent[client_name] = order_price
 
-    sorted_customer_spent = sorted(customer_spent.items(), key=itemgetter(1), reverse=True)
+    sorted_customer_spent = sorted(
+        customer_spent.items(),
+        key=itemgetter(1),
+        reverse=True)
 
     top_three_customers = sorted_customer_spent[:3]
 
     return top_three_customers
 
-        
+
 @report.route('/', methods=GET)
 def create_report():
     orders, error = OrderController.get_all()
@@ -76,6 +82,3 @@ def create_report():
         'month_with_more_revenue': get_month_with_more_revenue(orders_list[0].json),
         'top_three_customer': get_top_three_customers(orders_list[0].json)
     })
-    
-
-

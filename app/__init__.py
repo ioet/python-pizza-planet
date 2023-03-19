@@ -1,5 +1,4 @@
 import inspect
-
 from flask import Blueprint, Flask
 
 
@@ -37,5 +36,6 @@ def configure_app(config_class):
     cors_app(flask_app)
 
     return flask_app
+
 
 flask_app = configure_app('app.settings.Config')
