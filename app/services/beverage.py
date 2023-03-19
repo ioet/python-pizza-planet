@@ -5,6 +5,7 @@ from app.common.utils import handle_response
 
 beverage = Blueprint('beverage', __name__)
 
+
 @beverage.route('/', methods=POST)
 def create_beverage():
     beverage, error = BeverageController.create(request.json)

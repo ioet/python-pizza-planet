@@ -1,5 +1,4 @@
 import inspect
-
 from flask import Blueprint, Flask
 
 
