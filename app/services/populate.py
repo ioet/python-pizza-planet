@@ -6,5 +6,7 @@ populate = Blueprint('populate', __name__)
 
 @populate.route("/", methods=GET)
 def populate_fake_data():
+    print("Starting to populate database with fake data")
     main()
+    print("Database populated with fake data")
     return ("Database populated with fake data")
