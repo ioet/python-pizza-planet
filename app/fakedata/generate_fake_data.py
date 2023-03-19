@@ -61,11 +61,12 @@ def generate_fake_orders(num_orders=100, db_session=None):
     sizes = Size.query.all()
     ingredients = Ingredient.query.all()
     beverages = Beverage.query.all()
+
     client_list = []
-    
+    for _ in range(30):
+        client_list.append(fake.name())
+
     def get_random_client_from_list():
-        for _ in range(2):
-            client_list.append(fake.name())
         return random.choice(client_list)
 
     for _ in range(num_orders):
@@ -100,3 +101,6 @@ def main():
     generate_fake_ingredients()
     generate_fake_beverages()
     generate_fake_orders()
+
+if __name__ == '__main__':
+    main()
