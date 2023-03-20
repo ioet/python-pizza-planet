@@ -63,6 +63,10 @@ python3 manage.py db migrate
 python3 manage.py db upgrade
 ```
 
+- Populate database with 100 orders:
+
+Access to /populate/ endpoint when executing in local.
+
 - If you want to use the hot reload feature set FLASK_ENV before running the project:
 
 _For linux/MacOS users:_
