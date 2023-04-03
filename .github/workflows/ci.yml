@@ -1,19 +1,27 @@
 name: Pizza Planet CI
-on: [push]
+on:
+  pull_request:
+    branches:
+      - main
+
 jobs:
-  test:
+  CI-PIZZA-PLANET-BACKEND:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3      
-      - name: Set up Python
+      - name: checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python 3.9.13
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
+          python-version: "3.9.13"
 
-      - name: install requirements
+      - name: Install requirements
         run: |
+          python3 -m venv venv
+          source venv/bin/activate
           pip3 install -r requirements.txt
-
-      - name: run test
+      - name: Run pytest
         run: |
+          source venv/bin/activate
           python3 manage.py test
