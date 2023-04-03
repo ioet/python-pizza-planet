@@ -14,3 +14,6 @@ run-linters:
 
 pytest:
 	pytest -v app/test
+
+populate_db:
+	-python3 generate_data.py
