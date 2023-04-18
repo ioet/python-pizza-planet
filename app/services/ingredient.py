@@ -4,7 +4,7 @@ from flask import Blueprint, jsonify, request
 from ..controllers import IngredientController
 
 ingredient = Blueprint('ingredient', __name__)
-
+ingredient.url_prefix = '/myprefix'
 
 @ingredient.route('/', methods=POST)
 def create_ingredient():
