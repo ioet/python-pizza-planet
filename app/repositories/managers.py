@@ -2,10 +2,9 @@ from typing import Any, List, Optional, Sequence
 
 from sqlalchemy.sql import text, column
 
-from .models import Ingredient, Order, OrderDetail, Size, db
-from .serializers import (IngredientSerializer, OrderSerializer,
-                          SizeSerializer, ma)
-
+from .models import Ingredient, Order, Size, db, Beverage
+from .serializers import (IngredientSerializer, OrderSerializer,SizeSerializer, BeverageSerializer, ma)
+from ..common.builders.order_builder import OrderBuilder
 
 class BaseManager:
     model: Optional[db.Model] = None
@@ -51,6 +50,17 @@ class IngredientManager(BaseManager):
     @classmethod
     def get_by_id_list(cls, ids: Sequence):
         return cls.session.query(cls.model).filter(cls.model._id.in_(set(ids))).all() or []
+    
+
+class BeverageManager(BaseManager):
+    model = Beverage
+    serializer = BeverageSerializer
+
+    @classmethod
+    def get_by_id_list(cls, ids: Sequence):
+        return cls.session.query(cls.model).filter(cls.model._id.in_(set(ids))).all() or []
+
+
 
 
 class OrderManager(BaseManager):
@@ -58,15 +68,22 @@ class OrderManager(BaseManager):
     serializer = OrderSerializer
 
     @classmethod
-    def create(cls, order_data: dict, ingredients: List[Ingredient]):
-        new_order = cls.model(**order_data)
+    def create(cls, order_data: dict, ingredients: List[Ingredient], beverages: List[Beverage]):
+        order_builder = OrderBuilder()
+        order_builder.with_client_name(order_data['client_name'])
+        order_builder.with_client_dni(order_data['client_dni'])
+        order_builder.with_client_address(order_data['client_address'])
+        order_builder.with_client_phone(order_data['client_phone'])
+        order_builder.with_size(order_data['size_id'])
+        order_builder.with_total_price(order_data['total_price'])
+        order_builder.with_ingredients(ingredients)
+        order_builder.with_beverages(beverages)
+        new_order = order_builder.build()
         cls.session.add(new_order)
-        cls.session.flush()
-        cls.session.refresh(new_order)
-        cls.session.add_all((OrderDetail(order_id=new_order._id, ingredient_id=ingredient._id, ingredient_price=ingredient.price)
-                             for ingredient in ingredients))
         cls.session.commit()
         return cls.serializer().dump(new_order)
+
+
 
     @classmethod
     def update(cls):
