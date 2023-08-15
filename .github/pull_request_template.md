@@ -6,7 +6,7 @@
 
 - List out what you changed in simple English, using bullet points
 
-#### 🗃️ Jira Issues:
+#### 🗃️ Trello Card:
 
 - List of Jira issue links, using bullet points - if no issue exists, coordinate with team lead to make one
 
